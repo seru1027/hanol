@@ -1,5 +1,5 @@
 -- =============================================================
--- 35cheol ERD v0.3
+-- 한올(hanol) ERD v0.3
 -- 범위: MVP API 18개 (AUTH-01~04, ORG-01~03, JOIN-01~04, MEMBER-01, NOTICE-01~05)
 -- 기준: Wiki 'API 명세서' v0.4, 설계 결정 D1~D9 (Wiki 'ERD 설계서')
 --
@@ -17,11 +17,11 @@
 --   - UNIQUE 위반(1062)은 API마다 409로 바꾸거나(사용자가 고른 값) 다시 시도한다(서버가 뽑은 값)
 -- =============================================================
 
-CREATE DATABASE IF NOT EXISTS `35cheol`
+CREATE DATABASE IF NOT EXISTS `hanol`
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
-USE `35cheol`;
+USE `hanol`;
 
 -- 다른 테이블이 참조하는 테이블을 나중에 지운다 (만드는 순서의 반대)
 DROP TABLE IF EXISTS notices;
