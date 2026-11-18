@@ -1,10 +1,10 @@
-> 출처: [getdesign.md/notion/design-md](https://getdesign.md/notion/design-md)에서 2026-11-04 무렵 받은 Notion 분석본 (VoltAgent 운영. 사이트의 판은 그 뒤 바뀌어 지금 페이지와 내용이 다르다). getdesign.md 이용 약관 5항: 공개 목록의 무료 DESIGN.md는 "free to browse, download, and use in your projects", "as is" 제공. 같은 분석의 이전 판이 VoltAgent/awesome-design-md `design-md/notion/DESIGN.md`(초판 커밋 `1145c99`)에 MIT로 공개되어 있고, 색·그림자·둥글기·글자 크기 값이 그 초판과 같다 (MIT 전문은 맨 아래). Notion은 해당 소유자의 상표이며 이 문서는 Notion과 관계없다(약관 8항: 공개된 화면을 독립적으로 분석한 것). 본문은 원본 그대로 두고, 이 프로젝트에 맞춘 규칙은 맨 아래 "Project Components (35cheol)"에 **[추가함]**으로 모았다.
+> 출처: [getdesign.md/notion/design-md](https://getdesign.md/notion/design-md)에서 2026-11-04 무렵 받은 Notion 분석본 (VoltAgent 운영. 사이트의 판은 그 뒤 바뀌어 지금 페이지와 내용이 다르다). getdesign.md 이용 약관 5항: 공개 목록의 무료 DESIGN.md는 "free to browse, download, and use in your projects", "as is" 제공. 같은 분석의 이전 판이 VoltAgent/awesome-design-md `design-md/notion/DESIGN.md`(초판 커밋 `1145c99`)에 MIT로 공개되어 있고, 색·그림자·둥글기·글자 크기 값이 그 초판과 같다 (MIT 전문은 맨 아래). Notion은 해당 소유자의 상표이며 이 문서는 Notion과 관계없다(약관 8항: 공개된 화면을 독립적으로 분석한 것). 본문은 원본 그대로 두고, 이 프로젝트에 맞춘 규칙은 맨 아래 "Project Components (한올)"에 **[추가함]**으로 모았다.
 
 ## 이 문서를 읽는 법 **[추가함]**
 
 - 이 문서는 **모양**(색, 글꼴·글자 크기, 간격, 둥글기, 그림자, 부품 상태)의 원본이다. 화면에 무엇이 어떤 순서로 있고 어떻게 동작하는지는 Figma `03 화면정의서`를 따른다. 둘이 부딪히면 동작은 화면정의서, 모양은 이 문서를 따르고, 부딪히는 곳은 짚어서 정한다.
 - 코드 값은 `client/src/index.css`의 `:root` 한 곳에 옮긴다. 화면의 `.module.css`는 `var(--...)`만 쓴다.
-- 원본은 마케팅 사이트 분석이라 sticker palette·pricing·`ex-*` 부품은 쓰지 않는다. 이 프로젝트가 쓰는 부품과 원본에 없는 규칙은 맨 아래 "Project Components (35cheol)"에 모았다.
+- 원본은 마케팅 사이트 분석이라 sticker palette·pricing·`ex-*` 부품은 쓰지 않는다. 이 프로젝트가 쓰는 부품과 원본에 없는 규칙은 맨 아래 "Project Components (한올)"에 모았다.
 - 데스크톱 1440 기준으로 만든다. 원본의 Responsive Strategy는 **[MVP 범위 밖]**.
 
 ## Overview
@@ -255,7 +255,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 - Don't set body copy in a heavy weight — keep 400 for readability and let weight 700 belong to headlines.
 - Don't place type on pure clinical white for full pages; the warm `{colors.canvas-soft}` is core to the brand calm.
 
-## Project Components (35cheol) **[추가함]**
+## Project Components (한올) **[추가함]**
 
 원본에 없거나 이 프로젝트에 맞게 정한 규칙이다. 원본 규칙(파랑 하나, 장식 전용 sticker, hairline + 옅은 그림자, pill CTA ↔ 8px utility)에 맞춰 채웠다.
 
@@ -323,7 +323,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | 배치 | 왼쪽 폼 : 오른쪽 패널 = 49 : 51 (`--auth-split`, 레퍼런스 1536 화면의 754 : 781.5). 폼이 주인공이라 먼저(왼쪽) |
 | 로그인 ↔ 회원가입 | 탭이 아니라 주소를 나누고(`/login`, `/signup`), 폼 맨 아래 한 줄로 오간다: '계정이 없나요? **회원가입**' (`{typography.caption}` `{colors.ink-muted}`, 링크는 `{colors.primary}` weight 600, hover 밑줄) |
 | 폼 영역 | `{colors.canvas-soft}` 위에 **상자 없이**. 가로는 가운데, 세로는 위에서 `--auth-top`(18vh, 레퍼런스 회원가입 제목 202 / 1042)에서 시작하고, 폼 묶음 높이를 `--auth-content-height`(620px = 회원가입 높이)로 잡아 맨 아래 링크를 바닥에 붙인다. 그래서 두 화면의 서비스명·제목·첫 칸·맨 아래 링크가 모두 같은 자리에 있고, 바뀌는 것은 가운데 칸 수뿐이다 (레퍼런스처럼 로그인은 버튼 아래가 넓게 빈다). 1440×900에서 서비스명 162, 제목 198, 첫 칸 354, 링크 762px. 화면 전체에 `scrollbar-gutter: stable`을 둬 긴 화면에서 스크롤바가 생겨도 가로로 밀리지 않는다. 폭 400px, 요소 사이 `{spacing.xl}` (흰 입력칸이 바탕과 구분된다. 원본 Do: "warm canvas + white fields") |
-| 머리말 | 서비스명 '35cheol' `{typography.label}` `{colors.ink-muted}` → 화면 제목 32px weight 600 (`--type-auth-title`, 레퍼런스 크기. heading-1 40px는 이 화면에서 폼보다 무겁다) ('다시 오셨네요' / '계정 만들기'. 바로 위 서비스명과 겹치지 않게), 첫 칸까지 약 56px → 부제 `{typography.body-md}` `{colors.ink-muted}` |
+| 머리말 | 서비스명 '한올'(`messages.js` `SERVICE_NAME`) `{typography.label}` `{colors.ink-muted}` → 화면 제목 32px weight 600 (`--type-auth-title`, 레퍼런스 크기. heading-1 40px는 이 화면에서 폼보다 무겁다) ('다시 오셨네요' / '계정 만들기'. 바로 위 서비스명과 겹치지 않게), 첫 칸까지 약 56px → 부제 `{typography.body-md}` `{colors.ink-muted}` |
 | 오른쪽 패널 | 원본 `hero-band`의 `{colors.secondary}` (화면 하나에 한 번만 쓰는 "night" 띠). 폼 쪽 두 모서리만 45px (`--radius-auth-panel`, 레퍼런스 값. 놓인 면처럼). 화면 높이에 고정(sticky). **지금은 남색 면만 둔다** (2026-11-05 서비스 소개 문구를 뺐다. 들어갈 내용은 다음에 정한다). 장식이라 `aria-hidden` |
 | 비밀번호 칸 | 칸 안 오른쪽에 글자 버튼 [보기]/[숨기기] (`{typography.caption}` `{colors.ink-muted}`, 테두리 없음, hover `{colors.fill-subtle}`). 칸의 오른쪽 여백을 버튼 폭만큼 넓힌다 |
 | 주 버튼 | 폼 폭을 꽉 채운 Primary. 요청 중에는 문구도 바뀐다 ('로그인 중…', '가입 중…') |

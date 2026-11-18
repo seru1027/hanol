@@ -1,6 +1,9 @@
 // 응답 code → 화면 문구 사전 (API 명세서 0-2: message는 항상 null, 문구는 프론트가 code로 정한다)
 // 서버 코드와 프론트가 만든 코드(NETWORK_ERROR, PASSWORD_MISMATCH)를 한곳에 둔다
 const MESSAGES = {
+  // 서비스명 (2026-11-16 확정, 영문 Hanol). 화면에 쓰는 서비스명은 이 값 하나에서 가져온다
+  SERVICE_NAME: '한올',
+
   // AUTH-01 회원가입
   REQUIRED_LOGIN_ID: '아이디를 입력하세요',
   INVALID_LOGIN_ID_TYPE: '입력값을 확인하세요',
@@ -24,7 +27,7 @@ const MESSAGES = {
   // SCR-AUTH-01 화면별 제목·부제, 로그인 ↔ 회원가입 링크
   AUTH_LOGIN_TITLE: '다시 오셨네요',
   AUTH_LOGIN_SUB: '아이디와 비밀번호를 입력하세요.',
-  AUTH_SIGNUP_TITLE: '계정 만들기', // 바로 위 서비스명 '35cheol'과 겹치지 않게 (2026-11-09)
+  AUTH_SIGNUP_TITLE: '계정 만들기', // 바로 위 서비스명 '한올'과 겹치지 않게 (2026-11-09)
   AUTH_SIGNUP_SUB: '가입하면 초대 코드로 동아리에 들어갈 수 있어요.',
   AUTH_NO_ACCOUNT: '계정이 없나요?',
   AUTH_HAS_ACCOUNT: '이미 계정이 있나요?',

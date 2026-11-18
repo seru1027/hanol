@@ -223,7 +223,7 @@ export default function AppLayout() {
               </button>
             )}
             {/* ① 서비스명 → 메인 */}
-            <Link to="/" className={styles.serviceName}>35cheol</Link>
+            <Link to="/" className={styles.serviceName}>{messageOf('SERVICE_NAME')}</Link>
             {/* SCR-ORG-00 ① 위치 표시 '서비스명 > 동아리명'. 동아리 안(/orgs/:orgId/...)이고 목록에 이름이 있을 때만 */}
             {currentOrg && (
               <>

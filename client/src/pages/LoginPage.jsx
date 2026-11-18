@@ -130,7 +130,7 @@ export default function LoginPage({ mode }) {
       <main className={styles.panel}>
         <div className={styles.content}>
           <header className={styles.header}>
-            <p className={styles.brand}>35cheol</p>
+            <p className={styles.brand}>{messageOf('SERVICE_NAME')}</p>
             <h1 className={styles.title}>{messageOf(isLogin ? 'AUTH_LOGIN_TITLE' : 'AUTH_SIGNUP_TITLE')}</h1>
             <p className={styles.subtitle}>{messageOf(isLogin ? 'AUTH_LOGIN_SUB' : 'AUTH_SIGNUP_SUB')}</p>
           </header>
