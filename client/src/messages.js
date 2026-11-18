@@ -115,6 +115,7 @@ const MESSAGES = {
   // SCR-NOTICE-01 공지 목록 (NOTICE-01). 프론트 전용. [글쓰기]·빈 목록 문구는 홈 박스와 같이 쓴다
   NOTICE_LIST_TITLE: '공지',
   BACK_TO_ORG_HOME: '동아리 홈', // 하위 화면 위 '← 동아리 홈' 링크
+  BACK_TO_MAIN: '메인', // 동아리 홈 위 '← 메인' 링크 (2026-11-16 사용자 요청)
   COL_NOTICE_TITLE: '제목',
   COL_NOTICE_AUTHOR: '작성자',
   COL_NOTICE_CREATED_AT: '작성일',

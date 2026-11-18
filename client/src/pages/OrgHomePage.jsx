@@ -1,4 +1,5 @@
 import { useOutletContext } from 'react-router';
+import BackLink from '../components/BackLink.jsx';
 import PageTitle from '../components/PageTitle.jsx';
 import { messageOf } from '../messages.js';
 import JoinBox from './JoinBox.jsx';
@@ -21,6 +22,8 @@ export default function OrgHomePage() {
 
   return (
     <section>
+      {/* 상위 링크: 동아리 홈 → 메인 (화면정의서에는 없음, 사용자 요청 2026-11-16) */}
+      <BackLink to="/" label={messageOf('BACK_TO_MAIN')} />
       <PageTitle title={title} />
       {/* 2열: 왼쪽 공지 / 오른쪽 가입 관리 → 멤버 (와이어프레임 순서) */}
       <div className={styles.grid}>
