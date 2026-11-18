@@ -9,7 +9,7 @@ import { messageOf } from '../messages.js';
 import styles from './AppLayout.module.css';
 
 // 햄버거바 펼침 상태를 이 브라우저에 기억한다 (새로고침해도 유지). 저장소를 못 쓰는 환경(사생활 보호 창 등)이면 늘 펼침
-const NAV_OPEN_KEY = '35cheol.navOpen';
+const NAV_OPEN_KEY = 'hanol.navOpen';
 
 function readNavOpen() {
   try {
