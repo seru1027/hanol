@@ -5,6 +5,8 @@ import { api } from '../api.js';
 import { useAuth } from '../auth.jsx';
 import { messageOf } from '../messages.js';
 import { validateSignup } from '../validate.js';
+import AuthPanel from './AuthPanel.jsx';
+import Wordmark from '../components/Wordmark.jsx';
 import styles from './LoginPage.module.css';
 
 // SCR-AUTH-01 로그인(/login, AUTH-02) / 회원가입(/signup, AUTH-01)
@@ -130,7 +132,7 @@ export default function LoginPage({ mode }) {
       <main className={styles.panel}>
         <div className={styles.content}>
           <header className={styles.header}>
-            <p className={styles.brand}>{messageOf('SERVICE_NAME')}</p>
+            <p className={styles.brand}><Wordmark size="sm" /></p>
             <h1 className={styles.title}>{messageOf(isLogin ? 'AUTH_LOGIN_TITLE' : 'AUTH_SIGNUP_TITLE')}</h1>
             <p className={styles.subtitle}>{messageOf(isLogin ? 'AUTH_LOGIN_SUB' : 'AUTH_SIGNUP_SUB')}</p>
           </header>
@@ -190,8 +192,8 @@ export default function LoginPage({ mode }) {
         </div>
       </main>
 
-      {/* ① 오른쪽 패널: 지금은 남색 면만 둔다 (장식이라 화면 읽기 프로그램은 건너뜀). 들어갈 내용은 다음에 정한다 */}
-      <div className={styles.visual} aria-hidden="true" />
+      {/* ① 오른쪽 패널: 실뜨기 그림 + 서비스명·슬로건·뜻 */}
+      <AuthPanel />
     </div>
   );
 }

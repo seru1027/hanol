@@ -1,0 +1,88 @@
+/* SCR-AUTH-01 ① 오른쪽 패널. 값은 index.css의 :root만 쓴다 (DESIGN.md auth 오른쪽 패널)
+   폼 쪽 두 모서리만 둥글게: 화면을 자른 띠가 아니라 놓인 면으로 보인다
+   화면 높이에 붙여(sticky) 회원가입처럼 폼이 길어 스크롤해도 패널은 제자리에 있다 */
+.panel {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  overflow: hidden;
+  border-radius: var(--radius-auth-panel) 0 0 var(--radius-auth-panel);
+  background: var(--color-auth-panel);
+}
+
+/* 그림·밑줄 실: 패널 전체를 덮고, 누르기는 통과시킨다 */
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.thread {
+  fill: none;
+  stroke: var(--color-thread);
+  stroke-width: var(--stroke-thread);
+  stroke-linecap: round;
+}
+
+/* 손 안쪽을 바탕색으로 채워 실이 손가락 뒤로 지나가게 한다 */
+.hand {
+  fill: var(--color-auth-panel);
+  stroke: var(--color-line-art);
+  stroke-width: var(--stroke-hand);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 고리 띠 밑의 바탕색 띠: 실이 손가락 앞을 지나는 곳에서 윤곽선을 살짝 끊는다 */
+.loopGap {
+  fill: none;
+  stroke: var(--color-auth-panel);
+  stroke-width: var(--stroke-loop-gap);
+  stroke-linecap: round;
+}
+
+/* 글자 세 줄: 왼쪽 아래 */
+.intro {
+  position: absolute;
+  right: var(--auth-panel-pad);
+  bottom: var(--auth-panel-pad);
+  left: var(--auth-panel-pad);
+  max-width: var(--auth-panel-text-width);
+  word-break: keep-all;
+}
+
+/* 서비스명 워드마크 ('올'의 ㅇ은 흘러내리는 실이 그린다) */
+.name {
+  margin: 0;
+  line-height: 0;
+}
+
+/* ㅇ 한 바퀴: 실 색, 워드마크 획 굵기 */
+.ring {
+  fill: none;
+  stroke: var(--color-thread);
+  stroke-width: var(--stroke-wordmark-lg);
+  stroke-linecap: round;
+}
+
+/* 워드마크와 조금 더 띄우고, 제목보다 한 단계 가볍게 (heading-2 굵기 700 → 600) */
+.tagline {
+  margin: var(--space-xxl) 0 0;
+  color: var(--color-ink);
+  font: var(--type-auth-tagline) var(--font-sans);
+  letter-spacing: var(--tracking-heading-2);
+}
+
+/* '한 올 한 올'만 실 색 계열로. 실 색 그대로는 베이지 위 2.6:1이라 글자용으로 조금 진하게 (3.8:1, 큰 글자 기준 통과) */
+.accent {
+  color: var(--color-thread-text);
+}
+
+.meaning {
+  margin: var(--space-lg) 0 0;
+  color: var(--color-ink-muted);
+  font: var(--type-body) var(--font-sans);
+}

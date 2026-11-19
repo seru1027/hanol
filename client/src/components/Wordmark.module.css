@@ -1,0 +1,46 @@
+/* 서비스명 워드마크. 값은 index.css의 :root만 쓴다 */
+.wordmark {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* 높이만 정하면 폭은 그림 비율(79 : 46)을 따른다 */
+.art {
+  display: block;
+  width: auto;
+  overflow: visible; /* 둥근 획 끝이 그림 칸 밖으로 반 굵기만큼 나간다 */
+}
+
+.ink,
+.thread {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.ink {
+  stroke: var(--color-line-art);
+}
+
+.thread {
+  stroke: var(--color-thread);
+}
+
+.sm .art {
+  height: var(--wordmark-sm-height);
+}
+
+.sm .ink,
+.sm .thread {
+  stroke-width: var(--stroke-wordmark-sm);
+}
+
+.lg .art {
+  height: var(--wordmark-lg-height);
+}
+
+.lg .ink,
+.lg .thread {
+  stroke-width: var(--stroke-wordmark-lg);
+}

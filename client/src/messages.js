@@ -31,6 +31,11 @@ const MESSAGES = {
   AUTH_SIGNUP_SUB: '가입하면 초대 코드로 동아리에 들어갈 수 있어요.',
   AUTH_NO_ACCOUNT: '계정이 없나요?',
   AUTH_HAS_ACCOUNT: '이미 계정이 있나요?',
+  // SCR-AUTH-01 ① 오른쪽 패널 (서비스명은 SERVICE_NAME, 2026-11-19 확정)
+  AUTH_PANEL_LABEL: '서비스 소개', // 패널 aside의 이름 (화면 읽기)
+  AUTH_PANEL_TAGLINE_ACCENT: '한 올 한 올', // 슬로건에서 실 색으로 강조하는 앞부분
+  AUTH_PANEL_TAGLINE_REST: ', 가깝게 이어지는 우리 모임',
+  AUTH_PANEL_MEANING: "한올은 한 가닥의 실처럼 매우 가깝고 친밀하다는 우리말 '한올지다'에서 왔어요.",
   LINK_SIGNUP: '회원가입',
   LINK_LOGIN: '로그인',
 

@@ -1,0 +1,105 @@
+import { useLayoutEffect, useRef, useState } from 'react';
+import Wordmark, { WORDMARK_O, WORDMARK_VIEW } from '../components/Wordmark.jsx';
+import { messageOf } from '../messages.js';
+import styles from './AuthPanel.module.css';
+
+// SCR-AUTH-01 ① 오른쪽 패널: 실뜨기 한 줄 그림 + 서비스명·슬로건·뜻 (DESIGN.md auth 오른쪽 패널)
+// 그림은 Figma 04 Components 'auth-panel-illustration (P3)'에서 SVG로 내보낸 선 (바탕은 CSS가 칠한다)
+// 그림 좌표계는 734 × 900 (1440 화면의 패널 크기). 흘러내리는 실 끝 (140, 640)에서 이어 내려와 워드마크 '올'의 ㅇ을 한 바퀴 그린다
+
+const VIEW_W = 734;
+const VIEW_H = 900;
+const THREAD_END = [140, 640]; // 그림 속 흘러내리는 실의 끝
+
+// 손에 걸린 실 (손 뒤로 지나가므로 손보다 먼저 그린다)
+const STRANDS = [
+  'M237.8 270.5L485.1 268.2',
+  'M305.5 200.9L579.2 210.2',
+  'M237.8 270.5L446 352',
+  'M279.9 214.5L446 352',
+  'M510.5 277.8L446 352',
+  'M610.8 215.8L446 352',
+  'M238 269.6C226 400 190 530 140 640', // 왼쪽 위 손 고리에서 풀려 내려오는 실
+];
+
+// 손 세 개: 위 두 손 + 오른쪽 위 손을 복제해 돌린 아래 손 (검지 끝을 갈고리로)
+const HANDS = [
+  'M88 0C96 44 103 92 120 132C129 155 139 170 145 190C151 210 151 233 163 246C169 253 180 251 182 242C185 232 175 210 178 199C180 193 184 197 188 206L214 284C218 297 224 305 232 302C241 299 238 288 235 278L216 214C214 207 218 205 222 212L246 277C250 289 256 296 263 292C271 288 267 277 264 268L243 204C241 198 245 197 248 203L270 253C274 264 281 272 288 267C295 262 291 253 287 243L266 192C263 186 267 184 271 190L288 218C294 228 301 232 306 227C312 221 306 211 301 203L274 160C263 142 243 130 229 113C209 88 198 47 187 0',
+  'M552 0C548 43 541 80 525 111C514 132 496 145 481 164L443 216C436 225 434 234 440 238C447 243 453 236 459 228L485 197C490 191 494 194 490 201L454 265C449 275 448 284 455 287C463 291 469 281 474 272L506 216C510 209 514 211 511 218L484 278C479 289 479 298 486 300C494 303 500 293 504 284L534 223C537 217 541 218 539 225L524 270C520 282 522 289 529 290C538 292 542 282 545 273L565 218C570 204 575 194 580 194C585 195 582 209 578 221C573 235 574 247 582 249C592 253 599 238 605 223C611 205 610 188 616 171C631 127 643 68 651 0',
+  'M886.39 712.15L609.26 552.15C574.02 527.19 545.48 502.63 526.63 473.27C513.94 453.25 511.69 431.16 502.73 408.67L476.7 349.76C472.4 339.2 465.61 332.96 459.15 336.16C451.32 339.72 454.38 348.42 458.31 357.61L472.15 395.63C474.85 402.96 470.25 404.93 466.19 397.96L437.02 349.3C439.43 343.8 441.71 350.25 444.93 342.92C449.35 332.85 429.27 324.03 424.85 334.1C420.83 343.26 411.01 348.72 418.28 360.69L445.2 404.32C449.26 411.28 445.53 413.75 440.97 407.65L402.5 354.26C395.48 344.43 387.68 339.93 382.45 345C375.85 350.43 381.51 360.62 387.31 368.59L425.14 425.07C428.83 430.66 425.97 433.63 420.9 428.4L389.43 392.91C381.04 383.44 373.98 381.67 369.61 387.24C363.38 394.03 370.04 402.49 376.33 409.59L413.97 454.41C423.59 465.74 429.75 475.07 427.25 479.4C423.88 483.23 413.26 473.64 404.87 464.17C395.24 452.84 384.35 447.71 378.62 453.64C370.15 460.3 379.65 473.86 389.64 486.55C402.22 500.75 417.45 508.38 429.17 522.08C459.77 557.07 504.87 596.96 559.76 637.89L836.89 797.89',
+];
+
+// 손가락에 걸린 고리의 앞쪽 띠 (손 위에 그린다). 밑에 바탕색 띠를 깔아 손가락 윤곽선을 살짝 끊는다
+const LOOPS = [
+  'M207.4 276.3L207.9 277.4L209 278.3L210.6 279.1L212.6 279.6L215.1 279.9L217.8 280L220.7 279.7L223.7 279.3L226.7 278.6L229.5 277.7L232 276.7L234.2 275.5L235.9 274.3L237.1 273L237.8 271.7V270.5',
+  'M279.9 214.5L280.7 215.4L281.9 216L283.6 216.3H285.6L287.9 215.9L290.4 215.2L293 214.2L295.5 213L298 211.6L300.2 210L302.2 208.3L303.7 206.6L304.9 205L305.6 203.4L305.8 202.1L305.5 200.9',
+  'M485.1 268.2L484.9 269.4L485.2 270.7L486 272.2L487.3 273.6L489 275L491 276.4L493.3 277.6L495.7 278.6L498.2 279.4L500.7 280L503.1 280.3H505.3L507.2 280.1L508.8 279.6L509.9 278.8L510.5 277.8',
+  'M579.2 210.2L579.3 211.4L580 212.7L581.3 214L583.1 215.2L585.4 216.4L588 217.4L590.9 218.3L594 218.9L597.1 219.3L600.1 219.5H602.9L605.4 219.1L607.5 218.6L609.2 217.8L610.3 216.9L610.8 215.8',
+];
+
+export default function AuthPanel() {
+  const panelRef = useRef(null);
+  const markRef = useRef(null);
+  // 그림 속 실 끝에서 워드마크 '올'의 ㅇ까지 (패널 픽셀 좌표). 워드마크 위치를 재야 하므로 그린 뒤에 계산한다
+  const [thread, setThread] = useState(null);
+
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    const mark = markRef.current;
+    function measure() {
+      const p = panel.getBoundingClientRect();
+      const m = mark.getBoundingClientRect();
+      // 그림은 xMidYMin slice: 패널을 꽉 채우도록 키우고 가로는 가운데, 세로는 위에 맞춘다
+      const s = Math.max(p.width / VIEW_W, p.height / VIEW_H);
+      const sx = (p.width - VIEW_W * s) / 2 + THREAD_END[0] * s;
+      const sy = THREAD_END[1] * s;
+      // 워드마크 그림 좌표 → 패널 좌표
+      const k = m.height / WORDMARK_VIEW.height;
+      const cx = m.left - p.left + WORDMARK_O.cx * k;
+      const cy = m.top - p.top + WORDMARK_O.cy * k;
+      const r = WORDMARK_O.r * k;
+      // ㅇ의 왼쪽 위(-150도)로 들어가 한 바퀴 돌고, 조금 더 지나(-120도) 끝난다
+      const at = (deg) => [cx + r * Math.cos((deg * Math.PI) / 180), cy + r * Math.sin((deg * Math.PI) / 180)];
+      const [ex, ey] = at(-150);
+      const [ox, oy] = at(30);
+      const [fx, fy] = at(-120);
+      setThread({
+        // 그림 속 실이 내려오던 방향을 이어 받아 ㅇ에 닿는다 (실 굵기)
+        approach: `M ${sx} ${sy} C ${sx - 20 * s} ${sy + 40 * s}, ${ex - 40} ${ey - 6}, ${ex} ${ey}`,
+        // ㅇ 한 바퀴 (워드마크 획 굵기)
+        ring: `M ${ex} ${ey} A ${r} ${r} 0 1 1 ${ox} ${oy} A ${r} ${r} 0 1 1 ${ex} ${ey} A ${r} ${r} 0 0 1 ${fx} ${fy}`,
+      });
+    }
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(panel);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <aside ref={panelRef} className={styles.panel} aria-label={messageOf('AUTH_PANEL_LABEL')}>
+      {/* 그림은 장식: 뜻은 아래 글자가 말한다 */}
+      <svg className={styles.art} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
+        {STRANDS.map((d) => <path key={d} d={d} className={styles.thread} />)}
+        {HANDS.map((d) => <path key={d} d={d} className={styles.hand} />)}
+        {LOOPS.map((d) => <path key={`gap-${d}`} d={d} className={styles.loopGap} />)}
+        {LOOPS.map((d) => <path key={d} d={d} className={styles.thread} />)}
+      </svg>
+      {thread && (
+        <svg className={styles.art} aria-hidden="true" focusable="false">
+          <path d={thread.approach} className={styles.thread} />
+          <path d={thread.ring} className={styles.ring} />
+        </svg>
+      )}
+
+      <div className={styles.intro}>
+        <p className={styles.name}><Wordmark size="lg" drawO={false} svgRef={markRef} /></p>
+        <p className={styles.tagline}>
+          <span className={styles.accent}>{messageOf('AUTH_PANEL_TAGLINE_ACCENT')}</span>
+          {messageOf('AUTH_PANEL_TAGLINE_REST')}
+        </p>
+        <p className={styles.meaning}>{messageOf('AUTH_PANEL_MEANING')}</p>
+      </div>
+    </aside>
+  );
+}

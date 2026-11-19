@@ -98,6 +98,22 @@
   --type-auth-title: 600 32px/1.25; /* 레퍼런스 제목 32px. heading-1(40px)은 이 화면에서 폼보다 무거움 */
   --tracking-auth-title: -0.5px;
   --radius-auth-panel: 45px; /* 오른쪽 패널의 폼 쪽 두 모서리. 레퍼런스 값 */
+  --color-auth-panel: #ece3d6; /* 오른쪽 패널 바탕 (따뜻한 베이지, 폼 바탕과 같은 계열) */
+  --color-line-art: #1a1a1a; /* 패널 그림의 손 선 */
+  --color-thread: #f0603f; /* 패널 그림의 실 (코랄. 빨강 오류색·'붉은 실'과 구분) */
+  --stroke-hand: 2.5px; /* 손 한 줄 그림 굵기 (그림 좌표 734×900 기준) */
+  --stroke-thread: 2px; /* 실 굵기 */
+  --stroke-loop-gap: 7px; /* 고리 밑 바탕색 띠: 손가락 윤곽선을 끊는 폭 */
+  --auth-panel-pad: var(--space-section); /* 패널 글자의 왼쪽·아래 여백 */
+  --auth-panel-text-width: 560px; /* 패널 글자 최대 폭 (뜻 줄이 한 줄에 들어가는 폭) */
+  --color-thread-text: #c9452a; /* 실 색 계열 글자 (베이지 위 3.8:1, 큰 글자만) */
+  --type-auth-tagline: 600 26px/1.23; /* 패널 슬로건: heading-2 크기, 굵기 한 단계 아래 */
+  --wordmark-sm-height: 18px; /* 로그인 폼 위 워드마크 */
+  --wordmark-lg-height: 53px; /* 패널 워드마크 (시안 44px의 1.2배) */
+  --stroke-wordmark-sm: 1.75px;
+  --color-auth-button-active: #3a3a3a; /* 먹색 버튼을 누르거나 올렸을 때 (살짝 밝게) */
+  --underline-offset: 3px;
+  --stroke-wordmark-lg: 3.5px; /* 그림 선(2.5px)보다 살짝 두껍게 */
 
   /* 공통 레이아웃 (DESIGN.md app-layout) */
   --header-height: 48px;
