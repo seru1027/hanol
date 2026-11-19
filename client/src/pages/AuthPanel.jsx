@@ -6,11 +6,12 @@ import styles from './AuthPanel.module.css';
 
 // SCR-AUTH-01 ① 오른쪽 패널: 실뜨기 한 줄 그림 + 서비스명·슬로건·뜻 (DESIGN.md auth 오른쪽 패널)
 // 그림은 Figma 04 Components 'auth-panel-illustration (P3)'에서 SVG로 내보낸 선 (바탕은 CSS가 칠한다)
-// 그림 좌표계는 734 × 900 (1440 화면의 패널 크기). 흘러내리는 실 끝 (140, 640)에서 이어 내려와 워드마크 '올'의 ㅇ을 한 바퀴 그린다
+// 그림 좌표계는 734 × 900 (1440 화면의 패널 크기). 왼쪽 위 손 고리에서 풀린 실이 한 가닥으로 내려와 워드마크 '올'의 ㅇ을 한 바퀴 그린다
 
 const VIEW_W = 734;
 const VIEW_H = 900;
-const THREAD_END = [140, 640]; // 그림 속 흘러내리는 실의 끝
+// 왼쪽 위 손 고리에서 풀려 내려오는 실 (그림 좌표의 3차 곡선). 이 실부터는 화면 좌표로 옮겨 워드마크까지 한 가닥으로 그린다
+const FALL = [[238, 269.6], [226, 400], [190, 530], [140, 640]];
 
 // 손에 걸린 실 (손 뒤로 지나가므로 손보다 먼저 그린다)
 const STRANDS = [
@@ -20,7 +21,6 @@ const STRANDS = [
   'M279.9 214.5L446 352',
   'M510.5 277.8L446 352',
   'M610.8 215.8L446 352',
-  'M238 269.6C226 400 190 530 140 640', // 왼쪽 위 손 고리에서 풀려 내려오는 실
 ];
 
 // 손 세 개: 위 두 손 + 오른쪽 위 손을 복제해 돌린 아래 손 (검지 끝을 갈고리로)
@@ -42,14 +42,33 @@ const LOOPS = [
 // 손은 처음부터 있고 실만 그려진다: 손 사이 실·고리 → 흘러내리는 실 → '올'의 ㅇ 한 바퀴. 모두 약 1.4초
 // 이 탭에서 처음 한 번만 (로그인 ↔ 회원가입을 오갈 때 다시 그리지 않는다)
 const DRAWN_KEY = 'hanol.authThreadDrawn';
-const EASE = [0.23, 1, 0.32, 1]; // --ease-out
+// 손 사이 실: 천천히 시작해 빨라졌다가 천천히 멈춘다
+const EASE_IN_OUT = [0.45, 0, 0.25, 1];
 const STEP = {
-  strands: { delay: 0, duration: 0.6 },
-  loops: { delay: 0.35, duration: 0.3 },
-  fall: { delay: 0.55, duration: 0.45 },
-  approach: { delay: 1.0, duration: 0.15 },
-  ring: { delay: 1.15, duration: 0.3 },
+  strands: { delay: 0, duration: 0.6, ease: EASE_IN_OUT },
+  loops: { delay: 0.3, duration: 0.3, ease: EASE_IN_OUT },
 };
+// 흘러내리는 실: 고리에서 천천히 풀려(기울기 0) 내려오며 빨라지고, 끝에서 일정한 속도(기울기 1)로 ㅇ에 넘겨준다
+const FALL_START = 0.6; // 손 사이 실이 거의 다 그려진 뒤
+const FALL_SPEED = 600; // px/초. 길이에 비례한 시간이라 화면 크기가 달라도 같은 속도로 풀린다
+const FALL_EASE = [0.45, 0, 0.75, 0.75];
+// ㅇ 한 바퀴: 넘겨받은 속도로 시작해(첫 기울기 약 4.9 = 600px/초 ÷ 고리 평균 속도) 감기며 천천히 멈춘다
+const RING_DURATION = 0.45;
+const RING_EASE = [0.1, 0.49, 0.3, 1];
+
+// 3차 곡선 길이 (점을 촘촘히 찍어 더한다)
+function cubicLength(p0, p1, p2, p3) {
+  let len = 0;
+  let prev = p0;
+  for (let i = 1; i <= 40; i++) {
+    const t = i / 40;
+    const u = 1 - t;
+    const pt = [0, 1].map((k) => u * u * u * p0[k] + 3 * u * u * t * p1[k] + 3 * u * t * t * p2[k] + t * t * t * p3[k]);
+    len += Math.hypot(pt[0] - prev[0], pt[1] - prev[1]);
+    prev = pt;
+  }
+  return len;
+}
 
 function readDrawn() {
   try { return sessionStorage.getItem(DRAWN_KEY) === '1'; } catch { return false; }
@@ -64,7 +83,7 @@ function DrawPath({ d, className, step, animate }) {
       className={className}
       initial={{ pathLength: 0 }}
       animate={{ pathLength: 1 }}
-      transition={{ ...step, ease: EASE }}
+      transition={step}
     />
   );
 }
@@ -87,8 +106,8 @@ export default function AuthPanel() {
       const m = mark.getBoundingClientRect();
       // 그림은 xMidYMin slice: 패널을 꽉 채우도록 키우고 가로는 가운데, 세로는 위에 맞춘다
       const s = Math.max(p.width / VIEW_W, p.height / VIEW_H);
-      const sx = (p.width - VIEW_W * s) / 2 + THREAD_END[0] * s;
-      const sy = THREAD_END[1] * s;
+      const offsetX = (p.width - VIEW_W * s) / 2;
+      const [f0, f1, f2, f3] = FALL.map(([x, y]) => [offsetX + x * s, y * s]);
       // 워드마크 그림 좌표 → 패널 좌표
       const k = m.height / WORDMARK_VIEW.height;
       const cx = m.left - p.left + WORDMARK_O.cx * k;
@@ -99,11 +118,19 @@ export default function AuthPanel() {
       const [ex, ey] = at(-150);
       const [ox, oy] = at(30);
       const [fx, fy] = at(-120);
+      // 흘러내리는 실이 내려오던 방향을 이어 받아 ㅇ에 닿는 곡선
+      const a1 = [f3[0] - 20 * s, f3[1] + 40 * s];
+      const a2 = [ex - 40, ey - 6];
+      const fallLength = cubicLength(f0, f1, f2, f3) + cubicLength(f3, a1, a2, [ex, ey]);
+      const fallDuration = fallLength / FALL_SPEED;
+      const pt = (q) => `${q[0]} ${q[1]}`;
       setThread({
-        // 그림 속 실이 내려오던 방향을 이어 받아 ㅇ에 닿는다 (실 굵기)
-        approach: `M ${sx} ${sy} C ${sx - 20 * s} ${sy + 40 * s}, ${ex - 40} ${ey - 6}, ${ex} ${ey}`,
-        // ㅇ 한 바퀴 (워드마크 획 굵기)
+        // 고리 → 흘러내림 → ㅇ 입구까지 한 가닥 (실 굵기)
+        fall: `M ${pt(f0)} C ${pt(f1)} ${pt(f2)} ${pt(f3)} C ${pt(a1)} ${pt(a2)} ${ex} ${ey}`,
+        fallStep: { delay: FALL_START, duration: fallDuration, ease: FALL_EASE },
+        // ㅇ 한 바퀴 (워드마크 획 굵기). 흘러내리는 실이 닿는 순간 이어서 시작한다
         ring: `M ${ex} ${ey} A ${r} ${r} 0 1 1 ${ox} ${oy} A ${r} ${r} 0 1 1 ${ex} ${ey} A ${r} ${r} 0 0 1 ${fx} ${fy}`,
+        ringStep: { delay: FALL_START + fallDuration, duration: RING_DURATION, ease: RING_EASE },
       });
     }
     measure();
@@ -117,17 +144,15 @@ export default function AuthPanel() {
     <aside ref={panelRef} className={styles.panel} aria-label={messageOf('AUTH_PANEL_LABEL')}>
       {/* 그림은 장식: 뜻은 아래 글자가 말한다 */}
       <svg className={styles.art} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
-        {STRANDS.map((d, i) => (
-          <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={i === STRANDS.length - 1 ? STEP.fall : STEP.strands} />
-        ))}
+        {STRANDS.map((d) => <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={STEP.strands} />)}
         {HANDS.map((d) => <path key={d} d={d} className={styles.hand} />)}
         {LOOPS.map((d) => <DrawPath key={`gap-${d}`} d={d} className={styles.loopGap} animate={draw} step={STEP.loops} />)}
         {LOOPS.map((d) => <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={STEP.loops} />)}
       </svg>
       {thread && (
         <svg className={styles.art} aria-hidden="true" focusable="false">
-          <DrawPath d={thread.approach} className={styles.thread} animate={draw} step={STEP.approach} />
-          <DrawPath d={thread.ring} className={styles.ring} animate={draw} step={STEP.ring} />
+          <DrawPath d={thread.fall} className={styles.thread} animate={draw} step={thread.fallStep} />
+          <DrawPath d={thread.ring} className={styles.ring} animate={draw} step={thread.ringStep} />
         </svg>
       )}
 
