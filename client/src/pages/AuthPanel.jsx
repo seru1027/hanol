@@ -70,9 +70,10 @@ const THREAD_EASE = [0.3, 0, 0.75, 0.75];
 // ㅇ 한 바퀴: 넘겨받은 속도로 감기 시작해(첫 기울기 ≈ 1000px/초 ÷ 고리 평균 속도) 천천히 멈춘다
 const RING_DURATION = 0.45;
 const RING_EASE = [0.06, 0.49, 0.3, 1];
-// 글자: 실이 ㅇ에 닿기 0.3초 전부터 워드마크 검은 획이 그려지고(0.5초), ㅇ을 다 감으면 슬로건·뜻이 8px 올라오며 나타난다
-const MARK_LEAD = 0.3;
-const MARK_DURATION = 0.5;
+// 글자: '한'은 실이 ㅇ에 닿기 0.5초 전부터 필순대로 한 획씩, '올'의 ㅗ·ㄹ은 실이 ㅇ을 감기 시작하고 0.2초 뒤부터. 다 되면 슬로건·뜻이 8px 올라오며 나타난다
+const HAN_LEAD = 0.5; // '한'은 실이 ㅇ에 닿기 0.5초 전부터 한 획씩
+const OL_AFTER = 0.2; // '올'의 ㅗ·ㄹ은 실이 ㅇ을 감기 시작하고 0.2초 뒤부터
+const OL_DURATION = 0.45;
 const TEXT_RISE = 8; // px
 const TEXT_STEP = (delay) => ({ delay, duration: 0.4, ease: EASE_OUT });
 
@@ -98,9 +99,16 @@ const polylineLength = (a) => a.slice(1).reduce((sum, p, i) => sum + Math.hypot(
 const xy = (q) => `${q[0]} ${q[1]}`;
 
 // pathLength 0 → 1: 선의 길이만큼 dash를 밀어 처음부터 끝까지 그려지는 것처럼 보인다
+// 길이 0인 선도 둥근 끝 때문에 점으로 보이므로, 그리기 시작하는 순간까지는 숨겨 둔다
+const drawProps = (step) => ({
+  initial: { pathLength: 0, opacity: 0 },
+  animate: { pathLength: 1, opacity: 1 },
+  transition: { ...step, opacity: { delay: step?.delay ?? 0, duration: 0 } },
+});
+
 function DrawPath({ d, className, step, animate }) {
   if (!animate) return <path d={d} className={className} />;
-  return <motion.path d={d} className={className} initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={step} />;
+  return <motion.path d={d} className={className} {...drawProps(step)} />;
 }
 
 // 손 하나: 그릴 때만 들어오는 움직임을 준다
@@ -174,8 +182,11 @@ export default function AuthPanel() {
         // ㅇ 한 바퀴 (워드마크 획 굵기). 실이 닿는 순간 이어서 시작한다
         ring: `M ${xy(e)} A ${r} ${r} 0 1 1 ${xy(at(30))} A ${r} ${r} 0 1 1 ${xy(e)} A ${r} ${r} 0 0 1 ${xy(at(-120))}`,
         ringStep: { delay: HANDS_IN + duration, duration: RING_DURATION, ease: RING_EASE },
-        markStep: { delay: HANDS_IN + duration - MARK_LEAD, duration: MARK_DURATION, ease: EASE_OUT },
-        textDelay: HANDS_IN + duration + RING_DURATION,
+        markPlan: {
+          han: { delay: HANDS_IN + duration - HAN_LEAD, duration: HAN_LEAD },
+          ol: { delay: HANDS_IN + duration + OL_AFTER, duration: OL_DURATION },
+        },
+        textDelay: HANDS_IN + duration + Math.max(RING_DURATION, OL_AFTER + OL_DURATION),
       });
     }
     measure();
@@ -212,7 +223,7 @@ export default function AuthPanel() {
 
       <div className={styles.intro}>
         <p className={styles.name}>
-          <Wordmark size="lg" drawO={false} svgRef={markRef} drawStep={draw && thread ? thread.markStep : undefined} />
+          <Wordmark size="lg" drawO={false} svgRef={markRef} drawPlan={draw && thread ? thread.markPlan : undefined} />
         </p>
         <Rise className={styles.tagline} animate={draw} ready={!!thread} step={thread && TEXT_STEP(thread.textDelay)}>
           <span className={styles.accent}>{messageOf('AUTH_PANEL_TAGLINE_ACCENT')}</span>

@@ -9,24 +9,57 @@ import styles from './Wordmark.module.css';
 // size     'sm'(로그인 폼 위) | 'lg'(오른쪽 패널)
 // drawO    false면 '올'의 ㅇ을 비워 둔다. 오른쪽 패널에서는 흘러내리는 실이 그 자리를 한 바퀴 그린다
 // svgRef   ㅇ 자리를 재야 하는 쪽(오른쪽 패널)이 그림 위치를 읽는 데 쓴다
-// drawStep 주면 검은 획이 한 줄 그림처럼 그려진다 (Motion transition: delay·duration·ease). 없으면 처음부터 보인다
+// drawPlan 주면 검은 획이 필순대로 한 획씩 그려진다: { han: { delay, duration }, ol: { delay, duration } }. 없으면 처음부터 보인다
 
 export const WORDMARK_VIEW = { width: 79, height: 46 };
 export const WORDMARK_O = { cx: 61, cy: 9, r: 7 }; // '올'의 ㅇ
 
-// 한: ㅎ 꼭지·가로획, ㅏ, 받침 ㄴ / 올: ㅗ, 받침 ㄹ (ㅎ의 ㅇ은 원으로 따로)
-const STROKES = 'M9 4H17 M4 10H22 M30 2V31 M30 15.5H36 M7 31V43H37 M61 16V22 M47 22H75 M49 28H73V34H49V40.5H75';
+// 필순: 한(ㅎ 꼭지 → 가로획 → ㅇ → ㅏ 세로 → ㅏ 짧은 획 → 받침 ㄴ) / 올(ㅗ 세로 → ㅗ 가로 → 받침 ㄹ). ㅎ의 ㅇ은 위에서 시작해 왼쪽으로 돈다
+const STROKES = [
+  { d: 'M9 4H17', len: 8, part: 'han' },
+  { d: 'M4 10H22', len: 18, part: 'han' },
+  { d: 'M13 13A5.5 5.5 0 1 0 13 24A5.5 5.5 0 1 0 13 13', len: 34.6, part: 'han' },
+  { d: 'M30 2V31', len: 29, part: 'han' },
+  { d: 'M30 15.5H36', len: 6, part: 'han' },
+  { d: 'M7 31V43H37', len: 42, part: 'han' },
+  { d: 'M61 16V22', len: 6, part: 'ol' },
+  { d: 'M47 22H75', len: 28, part: 'ol' },
+  { d: 'M49 28H73V34H49V40.5H75', len: 86.5, part: 'ol' },
+];
+const PART_LENGTH = STROKES.reduce((sum, s) => ({ ...sum, [s.part]: (sum[s.part] ?? 0) + s.len }), {});
 
-export default function Wordmark({ size = 'sm', drawO = true, svgRef, drawStep }) {
-  const Path = drawStep ? motion.path : 'path';
-  const Circle = drawStep ? motion.circle : 'circle';
-  const draw = drawStep ? { initial: { pathLength: 0 }, animate: { pathLength: 1 }, transition: drawStep } : {};
+// 각 획의 시작·길이: 그 글자에 주어진 시간을 획 길이에 비례해 나눠, 앞 획이 끝나면 다음 획이 이어진다
+function strokeTiming(plan) {
+  const done = { han: 0, ol: 0 };
+  return STROKES.map(({ len, part }) => {
+    const { delay, duration } = plan[part];
+    const start = delay + (done[part] / PART_LENGTH[part]) * duration;
+    done[part] += len;
+    return { delay: start, duration: (len / PART_LENGTH[part]) * duration };
+  });
+}
+
+export default function Wordmark({ size = 'sm', drawO = true, svgRef, drawPlan }) {
+  const timing = drawPlan ? strokeTiming(drawPlan) : null;
   return (
     <span className={`${styles.wordmark} ${styles[size]}`}>
       <span className="visually-hidden">{messageOf('SERVICE_NAME')}</span>
       <svg ref={svgRef} className={styles.art} viewBox={`0 0 ${WORDMARK_VIEW.width} ${WORDMARK_VIEW.height}`} aria-hidden="true" focusable="false">
-        <Path d={STROKES} className={styles.ink} {...draw} />
-        <Circle cx="13" cy="18.5" r="5.5" className={styles.ink} {...draw} />
+        {STROKES.map(({ d }, i) =>
+          timing ? (
+            // 길이 0인 획도 둥근 끝 때문에 점으로 보이므로, 그 획을 쓰기 시작하는 순간까지는 숨겨 둔다
+            <motion.path
+              key={d}
+              d={d}
+              className={styles.ink}
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ ...timing[i], ease: 'linear', opacity: { delay: timing[i].delay, duration: 0 } }}
+            />
+          ) : (
+            <path key={d} d={d} className={styles.ink} />
+          ),
+        )}
         {drawO && <circle cx={WORDMARK_O.cx} cy={WORDMARK_O.cy} r={WORDMARK_O.r} className={styles.thread} />}
       </svg>
     </span>
