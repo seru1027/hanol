@@ -42,14 +42,20 @@ const LOOPS = [
 // 손은 처음부터 있고 실만 그려진다: 손 사이 실·고리 → 흘러내리는 실 → '올'의 ㅇ 한 바퀴. 모두 약 1.4초
 // 이 탭에서 처음 한 번만 (로그인 ↔ 회원가입을 오갈 때 다시 그리지 않는다)
 const DRAWN_KEY = 'hanol.authThreadDrawn';
+// 손이 먼저 들어온다: 각자 팔이 뻗은 방향의 화면 밖 쪽에서 60만큼 미끄러져 들어와 멈춘다 (그림 좌표)
+// 빨리 들어와 부드럽게 멈춤(--ease-out), 손마다 0.08초씩 어긋나게
+const EASE_OUT = [0.23, 1, 0.32, 1];
+const HAND_FROM = [[-17, -58], [21, -56], [52, 30]]; // 왼쪽 위 손, 오른쪽 위 손, 오른쪽 아래 손
+const HAND_STEP = (i) => ({ delay: i * 0.08, duration: 0.5, ease: EASE_OUT });
+const HANDS_IN = 0.6; // 손이 거의 자리를 잡은 때. 실은 여기서 시작한다
 // 손 사이 실: 천천히 시작해 빨라졌다가 천천히 멈춘다
 const EASE_IN_OUT = [0.45, 0, 0.25, 1];
 const STEP = {
-  strands: { delay: 0, duration: 0.6, ease: EASE_IN_OUT },
-  loops: { delay: 0.3, duration: 0.3, ease: EASE_IN_OUT },
+  strands: { delay: HANDS_IN, duration: 0.6, ease: EASE_IN_OUT },
+  loops: { delay: HANDS_IN + 0.3, duration: 0.3, ease: EASE_IN_OUT },
 };
 // 흘러내리는 실: 고리에서 천천히 풀려(기울기 0) 내려오며 빨라지고, 끝에서 일정한 속도(기울기 1)로 ㅇ에 넘겨준다
-const FALL_START = 0.6; // 손 사이 실이 거의 다 그려진 뒤
+const FALL_START = HANDS_IN + 0.6; // 손 사이 실이 거의 다 그려진 뒤
 const FALL_SPEED = 600; // px/초. 길이에 비례한 시간이라 화면 크기가 달라도 같은 속도로 풀린다
 const FALL_EASE = [0.45, 0, 0.75, 0.75];
 // ㅇ 한 바퀴: 넘겨받은 속도로 시작해(첫 기울기 약 4.9 = 600px/초 ÷ 고리 평균 속도) 감기며 천천히 멈춘다
@@ -85,6 +91,17 @@ function DrawPath({ d, className, step, animate }) {
       animate={{ pathLength: 1 }}
       transition={step}
     />
+  );
+}
+
+// 손 하나: 그릴 때만 들어오는 움직임을 준다
+function Hand({ d, index, className, animate }) {
+  if (!animate) return <path d={d} className={className} />;
+  const [x, y] = HAND_FROM[index];
+  return (
+    <motion.g initial={{ opacity: 0, x, y }} animate={{ opacity: 1, x: 0, y: 0 }} transition={HAND_STEP(index)}>
+      <path d={d} className={className} />
+    </motion.g>
   );
 }
 
@@ -145,7 +162,7 @@ export default function AuthPanel() {
       {/* 그림은 장식: 뜻은 아래 글자가 말한다 */}
       <svg className={styles.art} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
         {STRANDS.map((d) => <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={STEP.strands} />)}
-        {HANDS.map((d) => <path key={d} d={d} className={styles.hand} />)}
+        {HANDS.map((d, i) => <Hand key={d} d={d} index={i} className={styles.hand} animate={draw} />)}
         {LOOPS.map((d) => <DrawPath key={`gap-${d}`} d={d} className={styles.loopGap} animate={draw} step={STEP.loops} />)}
         {LOOPS.map((d) => <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={STEP.loops} />)}
       </svg>
