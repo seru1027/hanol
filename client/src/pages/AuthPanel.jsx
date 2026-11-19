@@ -70,6 +70,11 @@ const THREAD_EASE = [0.3, 0, 0.75, 0.75];
 // ㅇ 한 바퀴: 넘겨받은 속도로 감기 시작해(첫 기울기 ≈ 1000px/초 ÷ 고리 평균 속도) 천천히 멈춘다
 const RING_DURATION = 0.45;
 const RING_EASE = [0.06, 0.49, 0.3, 1];
+// 글자: 실이 ㅇ에 닿기 0.3초 전부터 워드마크 검은 획이 그려지고(0.5초), ㅇ을 다 감으면 슬로건·뜻이 8px 올라오며 나타난다
+const MARK_LEAD = 0.3;
+const MARK_DURATION = 0.5;
+const TEXT_RISE = 8; // px
+const TEXT_STEP = (delay) => ({ delay, duration: 0.4, ease: EASE_OUT });
 
 function readDrawn() {
   try { return sessionStorage.getItem(DRAWN_KEY) === '1'; } catch { return false; }
@@ -106,6 +111,21 @@ function Hand({ d, index, className, animate }) {
     <motion.g initial={{ opacity: 0, x, y }} animate={{ opacity: 1, x: 0, y: 0 }} transition={HAND_STEP(index)}>
       <path d={d} className={className} />
     </motion.g>
+  );
+}
+
+// 글자 한 줄: 그릴 때만 아래에서 살짝 올라오며 나타난다. 보이지 않는 동안에도 문서에는 있어 화면 읽기는 바로 읽는다
+function Rise({ className, animate, ready, step, children }) {
+  if (!animate) return <p className={className}>{children}</p>;
+  return (
+    <motion.p
+      className={className}
+      initial={{ opacity: 0, y: TEXT_RISE }}
+      animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: TEXT_RISE }}
+      transition={step ?? undefined}
+    >
+      {children}
+    </motion.p>
   );
 }
 
@@ -154,6 +174,8 @@ export default function AuthPanel() {
         // ㅇ 한 바퀴 (워드마크 획 굵기). 실이 닿는 순간 이어서 시작한다
         ring: `M ${xy(e)} A ${r} ${r} 0 1 1 ${xy(at(30))} A ${r} ${r} 0 1 1 ${xy(e)} A ${r} ${r} 0 0 1 ${xy(at(-120))}`,
         ringStep: { delay: HANDS_IN + duration, duration: RING_DURATION, ease: RING_EASE },
+        markStep: { delay: HANDS_IN + duration - MARK_LEAD, duration: MARK_DURATION, ease: EASE_OUT },
+        textDelay: HANDS_IN + duration + RING_DURATION,
       });
     }
     measure();
@@ -189,12 +211,16 @@ export default function AuthPanel() {
       )}
 
       <div className={styles.intro}>
-        <p className={styles.name}><Wordmark size="lg" drawO={false} svgRef={markRef} /></p>
-        <p className={styles.tagline}>
+        <p className={styles.name}>
+          <Wordmark size="lg" drawO={false} svgRef={markRef} drawStep={draw && thread ? thread.markStep : undefined} />
+        </p>
+        <Rise className={styles.tagline} animate={draw} ready={!!thread} step={thread && TEXT_STEP(thread.textDelay)}>
           <span className={styles.accent}>{messageOf('AUTH_PANEL_TAGLINE_ACCENT')}</span>
           {messageOf('AUTH_PANEL_TAGLINE_REST')}
-        </p>
-        <p className={styles.meaning}>{messageOf('AUTH_PANEL_MEANING')}</p>
+        </Rise>
+        <Rise className={styles.meaning} animate={draw} ready={!!thread} step={thread && TEXT_STEP(thread.textDelay + 0.1)}>
+          {messageOf('AUTH_PANEL_MEANING')}
+        </Rise>
       </div>
     </aside>
   );

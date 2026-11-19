@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import { messageOf } from '../messages.js';
 import styles from './Wordmark.module.css';
 
@@ -8,6 +9,7 @@ import styles from './Wordmark.module.css';
 // size     'sm'(로그인 폼 위) | 'lg'(오른쪽 패널)
 // drawO    false면 '올'의 ㅇ을 비워 둔다. 오른쪽 패널에서는 흘러내리는 실이 그 자리를 한 바퀴 그린다
 // svgRef   ㅇ 자리를 재야 하는 쪽(오른쪽 패널)이 그림 위치를 읽는 데 쓴다
+// drawStep 주면 검은 획이 한 줄 그림처럼 그려진다 (Motion transition: delay·duration·ease). 없으면 처음부터 보인다
 
 export const WORDMARK_VIEW = { width: 79, height: 46 };
 export const WORDMARK_O = { cx: 61, cy: 9, r: 7 }; // '올'의 ㅇ
@@ -15,13 +17,16 @@ export const WORDMARK_O = { cx: 61, cy: 9, r: 7 }; // '올'의 ㅇ
 // 한: ㅎ 꼭지·가로획, ㅏ, 받침 ㄴ / 올: ㅗ, 받침 ㄹ (ㅎ의 ㅇ은 원으로 따로)
 const STROKES = 'M9 4H17 M4 10H22 M30 2V31 M30 15.5H36 M7 31V43H37 M61 16V22 M47 22H75 M49 28H73V34H49V40.5H75';
 
-export default function Wordmark({ size = 'sm', drawO = true, svgRef }) {
+export default function Wordmark({ size = 'sm', drawO = true, svgRef, drawStep }) {
+  const Path = drawStep ? motion.path : 'path';
+  const Circle = drawStep ? motion.circle : 'circle';
+  const draw = drawStep ? { initial: { pathLength: 0 }, animate: { pathLength: 1 }, transition: drawStep } : {};
   return (
     <span className={`${styles.wordmark} ${styles[size]}`}>
       <span className="visually-hidden">{messageOf('SERVICE_NAME')}</span>
       <svg ref={svgRef} className={styles.art} viewBox={`0 0 ${WORDMARK_VIEW.width} ${WORDMARK_VIEW.height}`} aria-hidden="true" focusable="false">
-        <path d={STROKES} className={styles.ink} />
-        <circle cx="13" cy="18.5" r="5.5" className={styles.ink} />
+        <Path d={STROKES} className={styles.ink} {...draw} />
+        <Circle cx="13" cy="18.5" r="5.5" className={styles.ink} {...draw} />
         {drawO && <circle cx={WORDMARK_O.cx} cy={WORDMARK_O.cy} r={WORDMARK_O.r} className={styles.thread} />}
       </svg>
     </span>
