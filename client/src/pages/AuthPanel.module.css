@@ -36,6 +36,15 @@
   stroke-linejoin: round;
 }
 
+/* 손 앞 겹을 고리 띠 자리에만 보이게 하는 가림막 (흰 곳만 보인다) */
+.loopMask {
+  fill: none;
+  stroke: var(--color-canvas);
+  stroke-width: var(--stroke-loop-mask);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* 고리 띠 밑의 바탕색 띠: 실이 손가락 앞을 지나는 곳에서 윤곽선을 살짝 끊는다 */
 .loopGap {
   fill: none;

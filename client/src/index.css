@@ -104,6 +104,7 @@
   --stroke-hand: 2.5px; /* 손 한 줄 그림 굵기 (그림 좌표 734×900 기준) */
   --stroke-thread: 2px; /* 실 굵기 */
   --stroke-loop-gap: 7px; /* 고리 밑 바탕색 띠: 손가락 윤곽선을 끊는 폭 */
+  --stroke-loop-mask: 12px; /* 실의 손 앞 겹이 보이는 고리 띠 폭 */
   --auth-panel-pad: var(--space-section); /* 패널 글자의 왼쪽·아래 여백 */
   --auth-panel-text-width: 560px; /* 패널 글자 최대 폭 (뜻 줄이 한 줄에 들어가는 폭) */
   --color-thread-text: #c9452a; /* 실 색 계열 글자 (베이지 위 3.8:1, 큰 글자만) */
