@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import Wordmark, { WORDMARK_O, WORDMARK_VIEW } from '../components/Wordmark.jsx';
 import { messageOf } from '../messages.js';
@@ -37,7 +38,42 @@ const LOOPS = [
   'M579.2 210.2L579.3 211.4L580 212.7L581.3 214L583.1 215.2L585.4 216.4L588 217.4L590.9 218.3L594 218.9L597.1 219.3L600.1 219.5H602.9L605.4 219.1L607.5 218.6L609.2 217.8L610.3 216.9L610.8 215.8',
 ];
 
+// 실이 한 번 그려지는 움직임 (DESIGN.md motion: 열림만 움직임, 움직임 줄이기 존중)
+// 손은 처음부터 있고 실만 그려진다: 손 사이 실·고리 → 흘러내리는 실 → '올'의 ㅇ 한 바퀴. 모두 약 1.4초
+// 이 탭에서 처음 한 번만 (로그인 ↔ 회원가입을 오갈 때 다시 그리지 않는다)
+const DRAWN_KEY = 'hanol.authThreadDrawn';
+const EASE = [0.23, 1, 0.32, 1]; // --ease-out
+const STEP = {
+  strands: { delay: 0, duration: 0.6 },
+  loops: { delay: 0.35, duration: 0.3 },
+  fall: { delay: 0.55, duration: 0.45 },
+  approach: { delay: 1.0, duration: 0.15 },
+  ring: { delay: 1.15, duration: 0.3 },
+};
+
+function readDrawn() {
+  try { return sessionStorage.getItem(DRAWN_KEY) === '1'; } catch { return false; }
+}
+
+// pathLength 0 → 1: 선의 길이만큼 dash를 밀어 처음부터 끝까지 그려지는 것처럼 보인다
+function DrawPath({ d, className, step, animate }) {
+  if (!animate) return <path d={d} className={className} />;
+  return (
+    <motion.path
+      d={d}
+      className={className}
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ ...step, ease: EASE }}
+    />
+  );
+}
+
 export default function AuthPanel() {
+  const reduceMotion = useReducedMotion();
+  // 처음 그린 순간의 값으로 고정: 그리는 도중에 기록이 바뀌어도 움직임이 끊기지 않게
+  const [animate] = useState(() => !readDrawn());
+  const draw = animate && !reduceMotion;
   const panelRef = useRef(null);
   const markRef = useRef(null);
   // 그림 속 실 끝에서 워드마크 '올'의 ㅇ까지 (패널 픽셀 좌표). 워드마크 위치를 재야 하므로 그린 뒤에 계산한다
@@ -71,6 +107,7 @@ export default function AuthPanel() {
       });
     }
     measure();
+    try { sessionStorage.setItem(DRAWN_KEY, '1'); } catch { /* 저장이 막힌 브라우저: 매번 그린다 */ }
     const observer = new ResizeObserver(measure);
     observer.observe(panel);
     return () => observer.disconnect();
@@ -80,15 +117,17 @@ export default function AuthPanel() {
     <aside ref={panelRef} className={styles.panel} aria-label={messageOf('AUTH_PANEL_LABEL')}>
       {/* 그림은 장식: 뜻은 아래 글자가 말한다 */}
       <svg className={styles.art} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
-        {STRANDS.map((d) => <path key={d} d={d} className={styles.thread} />)}
+        {STRANDS.map((d, i) => (
+          <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={i === STRANDS.length - 1 ? STEP.fall : STEP.strands} />
+        ))}
         {HANDS.map((d) => <path key={d} d={d} className={styles.hand} />)}
-        {LOOPS.map((d) => <path key={`gap-${d}`} d={d} className={styles.loopGap} />)}
-        {LOOPS.map((d) => <path key={d} d={d} className={styles.thread} />)}
+        {LOOPS.map((d) => <DrawPath key={`gap-${d}`} d={d} className={styles.loopGap} animate={draw} step={STEP.loops} />)}
+        {LOOPS.map((d) => <DrawPath key={d} d={d} className={styles.thread} animate={draw} step={STEP.loops} />)}
       </svg>
       {thread && (
         <svg className={styles.art} aria-hidden="true" focusable="false">
-          <path d={thread.approach} className={styles.thread} />
-          <path d={thread.ring} className={styles.ring} />
+          <DrawPath d={thread.approach} className={styles.thread} animate={draw} step={STEP.approach} />
+          <DrawPath d={thread.ring} className={styles.ring} animate={draw} step={STEP.ring} />
         </svg>
       )}
 
