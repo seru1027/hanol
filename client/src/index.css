@@ -114,7 +114,9 @@
   --stroke-wordmark-sm: 1.75px;
   --color-auth-button-active: #3a3a3a; /* 먹색 버튼을 누르거나 올렸을 때 (살짝 밝게) */
   --underline-offset: 3px;
-  --stroke-wordmark-lg: 3.5px; /* 그림 선(2.5px)보다 살짝 두껍게 */
+  --stroke-wordmark-lg: 3.5px; /* 그림 선(2.5px)보다 살짝 두껍게. 화면 px (실이 그리는 ㅇ) */
+  --stroke-wordmark-lg-art: 3.04px; /* 워드마크 그림 좌표 단위: 화면 3.5px ÷ (53 / 46) */
+  --stroke-wordmark-sm-art: 4.47px; /* 워드마크 그림 좌표 단위: 화면 1.75px ÷ (18 / 46) */
 
   /* 공통 레이아웃 (DESIGN.md app-layout) */
   --header-height: 48px;

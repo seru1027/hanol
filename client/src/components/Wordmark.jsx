@@ -1,9 +1,9 @@
-import { motion } from 'motion/react';
+import DrawPath from './DrawPath.jsx';
 import { messageOf } from '../messages.js';
 import styles from './Wordmark.module.css';
 
 // 서비스명 '한올' 워드마크: 그림 선과 같은 둥근 한 줄 획 (DESIGN.md auth 워드마크)
-// 획은 먹색, '올'의 ㅇ만 실 색(주황). 획 굵기는 크기와 상관없이 고정(non-scaling-stroke)이라 작아도 실처럼 가늘다
+// 획은 먹색, '올'의 ㅇ만 실 색(주황). 굵기는 크기마다 그림 좌표 단위로 정해 작아도 실처럼 가늘다 (--stroke-wordmark-*-art)
 // 그림 좌표 79 × 46. 화면 읽기는 숨긴 글자 '한올'을 읽고, 그림은 건너뛴다
 //
 // size     'sm'(로그인 폼 위) | 'lg'(오른쪽 패널)
@@ -35,7 +35,7 @@ function strokeTiming(plan) {
     const { delay, duration } = plan[part];
     const start = delay + (done[part] / PART_LENGTH[part]) * duration;
     done[part] += len;
-    return { delay: start, duration: (len / PART_LENGTH[part]) * duration };
+    return { delay: start, duration: (len / PART_LENGTH[part]) * duration, ease: 'linear' };
   });
 }
 
@@ -45,21 +45,9 @@ export default function Wordmark({ size = 'sm', drawO = true, svgRef, drawPlan }
     <span className={`${styles.wordmark} ${styles[size]}`}>
       <span className="visually-hidden">{messageOf('SERVICE_NAME')}</span>
       <svg ref={svgRef} className={styles.art} viewBox={`0 0 ${WORDMARK_VIEW.width} ${WORDMARK_VIEW.height}`} aria-hidden="true" focusable="false">
-        {STROKES.map(({ d }, i) =>
-          timing ? (
-            // 길이 0인 획도 둥근 끝 때문에 점으로 보이므로, 그 획을 쓰기 시작하는 순간까지는 숨겨 둔다
-            <motion.path
-              key={d}
-              d={d}
-              className={styles.ink}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ ...timing[i], ease: 'linear', opacity: { delay: timing[i].delay, duration: 0 } }}
-            />
-          ) : (
-            <path key={d} d={d} className={styles.ink} />
-          ),
-        )}
+        {STROKES.map(({ d }, i) => (
+          <DrawPath key={d} d={d} className={styles.ink} animate={!!timing} step={timing?.[i]} />
+        ))}
         {drawO && <circle cx={WORDMARK_O.cx} cy={WORDMARK_O.cy} r={WORDMARK_O.r} className={styles.thread} />}
       </svg>
     </span>

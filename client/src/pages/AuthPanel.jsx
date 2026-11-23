@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
+import DrawPath from '../components/DrawPath.jsx';
 import Wordmark, { WORDMARK_O, WORDMARK_VIEW } from '../components/Wordmark.jsx';
 import { messageOf } from '../messages.js';
 import styles from './AuthPanel.module.css';
@@ -66,7 +67,8 @@ const HAND_STEP = (i) => ({ delay: i * 0.08, duration: 0.5, ease: EASE_OUT });
 const HANDS_IN = 0.6; // 손이 거의 자리를 잡은 때. 실은 여기서 시작한다
 // 실 한 올: 고리에서 천천히 풀리기 시작해(기울기 0) 일정한 속도로 손가락을 걸고, 끝은 일정한 속도(기울기 1)로 ㅇ에 넘겨준다
 const THREAD_SPEED = 1000; // px/초. 길이에 비례한 시간이라 화면 크기가 달라도 같은 속도로 풀린다
-const THREAD_EASE = [0.3, 0, 0.75, 0.75];
+// 첫 기울기를 0이 아니라 약 0.5로: 시작점에 몇 프레임씩 머무르지 않고 바로 풀려 나온다
+const THREAD_EASE = [0.3, 0.15, 0.75, 0.75];
 // ㅇ 한 바퀴: 넘겨받은 속도로 감기 시작해(첫 기울기 ≈ 1000px/초 ÷ 고리 평균 속도) 천천히 멈춘다
 const RING_DURATION = 0.45;
 const RING_EASE = [0.06, 0.49, 0.3, 1];
@@ -97,19 +99,6 @@ function cubicLength(p0, p1, p2, p3) {
 
 const polylineLength = (a) => a.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - a[i][0], p[1] - a[i][1]), 0);
 const xy = (q) => `${q[0]} ${q[1]}`;
-
-// pathLength 0 → 1: 선의 길이만큼 dash를 밀어 처음부터 끝까지 그려지는 것처럼 보인다
-// 길이 0인 선도 둥근 끝 때문에 점으로 보이므로, 그리기 시작하는 순간까지는 숨겨 둔다
-const drawProps = (step) => ({
-  initial: { pathLength: 0, opacity: 0 },
-  animate: { pathLength: 1, opacity: 1 },
-  transition: { ...step, opacity: { delay: step?.delay ?? 0, duration: 0 } },
-});
-
-function DrawPath({ d, className, step, animate }) {
-  if (!animate) return <path d={d} className={className} />;
-  return <motion.path d={d} className={className} {...drawProps(step)} />;
-}
 
 // 손 하나: 그릴 때만 들어오는 움직임을 준다
 function Hand({ d, index, className, animate }) {

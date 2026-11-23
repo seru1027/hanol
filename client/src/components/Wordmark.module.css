@@ -16,7 +16,8 @@
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
+  /* 굵기는 그림 좌표 단위로 준다. non-scaling-stroke는 점선(pathLength 그리기)을 화면 좌표로 계산해,
+     그리는 도중 획 끝에 점선 조각이 한 번 더 찍히므로 쓰지 않는다 */
 }
 
 .ink {
@@ -33,7 +34,7 @@
 
 .sm .ink,
 .sm .thread {
-  stroke-width: var(--stroke-wordmark-sm);
+  stroke-width: var(--stroke-wordmark-sm-art);
 }
 
 .lg .art {
@@ -42,5 +43,5 @@
 
 .lg .ink,
 .lg .thread {
-  stroke-width: var(--stroke-wordmark-lg);
+  stroke-width: var(--stroke-wordmark-lg-art);
 }
