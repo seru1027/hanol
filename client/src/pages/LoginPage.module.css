@@ -115,8 +115,22 @@
   gap: var(--space-xs);
 }
 
+/* 라벨 줄: 라벨은 왼쪽, 회원가입 오류 문구는 오른쪽 끝. 글자 아래선을 맞춘다
+   라벨·오류 모두 14px/1.43이라 줄 높이(20px)가 오류 유무와 상관없이 같다 → 아래 칸이 밀리지 않음 */
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
 .label {
   font: var(--type-label) var(--font-sans);
+}
+
+/* 문구가 길어져도 라벨이 줄어들거나 꺾이지 않게 */
+.labelRow .label {
+  flex-shrink: 0;
 }
 
 .input {

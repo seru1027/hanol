@@ -198,7 +198,8 @@ export default function LoginPage({ mode }) {
   );
 }
 
-// 입력칸 하나: 라벨 → 칸 → 도움말 → 오류 문구 (Figma 04 입력칸, DESIGN.md form-field)
+// 입력칸 하나: 라벨 줄(라벨 + 오른쪽 오류 문구) → 칸 → 도움말 (Figma 04 입력칸, DESIGN.md form-field)
+// 오류를 칸 아래 새 줄로 그리면 아래 칸·버튼이 28px씩 밀려서, 이미 비어 있는 라벨 줄 오른쪽에 둔다 (2026-11-24)
 // error는 code로 받아 사전에서 문구를 찾는다
 // revealable: 비밀번호 칸 오른쪽에 [보기]/[숨기기] (B3). 칸마다 따로 켜고, 화면을 옮기면 새로 그려져 다시 숨김
 function Field({ label, name, type = 'text', value, onChange, help, error, autoComplete, revealable = false }) {
@@ -208,7 +209,10 @@ function Field({ label, name, type = 'text', value, onChange, help, error, autoC
   const describedBy = [help && `${id}-help`, error && `${id}-error`].filter(Boolean).join(' ') || undefined;
   return (
     <div className={styles.field}>
-      <label htmlFor={id} className={styles.label}>{label}</label>
+      <div className={styles.labelRow}>
+        <label htmlFor={id} className={styles.label}>{label}</label>
+        {error && <p id={`${id}-error`} className={styles.error}>{messageOf(error)}</p>}
+      </div>
       <div className={styles.inputWrap}>
         <input
           id={id}
@@ -234,7 +238,6 @@ function Field({ label, name, type = 'text', value, onChange, help, error, autoC
         )}
       </div>
       {help && <p id={`${id}-help`} className={styles.help}>{help}</p>}
-      {error && <p id={`${id}-error`} className={styles.error}>{messageOf(error)}</p>}
     </div>
   );
 }

@@ -289,7 +289,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | 상태 | 모양 |
 |---|---|
 | Focus | 테두리 `{colors.primary}` + Level 1 그림자 (원본: Focus는 Level 1, 파랑은 focus 신호) |
-| Error | 테두리 `{colors.danger}` + 오류 문구. 그 칸을 고치면 둘 다 사라진다 (화면정의서 결정 H) |
+| Error | 테두리 `{colors.danger}` + 오류 문구. 그 칸을 고치면 둘 다 사라진다 (화면정의서 결정 H). 회원가입(`auth-card`)만: 오류 문구를 칸 아래가 아니라 라벨 줄 오른쪽에 둔다(라벨과 글자 아래선 맞춤). 칸 아래 새 줄이면 오류마다 아래 칸·버튼이 28px씩 밀렸다(4칸이면 112px). 라벨 줄 높이가 같아 밀림 0, 도움말은 칸 아래에 그대로 (2026-11-24 [추가함]) |
 | Disabled (요청 중 잠금) | 바탕 `{colors.canvas-soft}`, 글자 `{colors.ink-faint}` |
 
 ### 버튼
