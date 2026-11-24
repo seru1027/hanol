@@ -34,9 +34,11 @@
 }
 
 .brand {
-  margin: 0 0 var(--space-xs);
+  /* 줄 높이 0: 자리 높이가 워드마크 높이와 같다. 워드마크가 자리(--auth-brand-slot)보다 큰 만큼 위로 올려 제목·첫 칸 위치를 지킨다 */
+  margin: calc(var(--auth-brand-slot) - var(--wordmark-sm-height)) 0 var(--space-xs);
   color: var(--color-ink-muted);
   font: var(--type-label) var(--font-sans);
+  line-height: 0;
 }
 
 .title {

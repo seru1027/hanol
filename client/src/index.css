@@ -109,14 +109,15 @@
   --auth-panel-text-width: 560px; /* 패널 글자 최대 폭 (뜻 줄이 한 줄에 들어가는 폭) */
   --color-thread-text: #c9452a; /* 실 색 계열 글자 (베이지 위 3.8:1, 큰 글자만) */
   --type-auth-tagline: 600 26px/1.23; /* 패널 슬로건: heading-2 크기, 굵기 한 단계 아래 */
-  --wordmark-sm-height: 18px; /* 로그인 폼 위 워드마크 */
+  --wordmark-sm-height: 22px; /* 로그인 폼 위 워드마크 (제목 32px의 약 0.7배, 2026-11-24) */
+  --auth-brand-slot: 20px; /* 머리말 서비스명 자리 높이(예전 글자 한 줄). 워드마크가 이보다 크면 그만큼 위로 올라가 제목 자리가 그대로 */
   --wordmark-lg-height: 53px; /* 패널 워드마크 (시안 44px의 1.2배) */
-  --stroke-wordmark-sm: 1.75px;
+  --stroke-wordmark-sm: 2px; /* 작을수록 높이에 비해 굵게 (높이의 약 9%, 패널 것은 6.6%) */
   --color-auth-button-active: #3a3a3a; /* 먹색 버튼을 누르거나 올렸을 때 (살짝 밝게) */
   --underline-offset: 3px;
   --stroke-wordmark-lg: 3.5px; /* 그림 선(2.5px)보다 살짝 두껍게. 화면 px (실이 그리는 ㅇ) */
   --stroke-wordmark-lg-art: 3.04px; /* 워드마크 그림 좌표 단위: 화면 3.5px ÷ (53 / 46) */
-  --stroke-wordmark-sm-art: 4.47px; /* 워드마크 그림 좌표 단위: 화면 1.75px ÷ (18 / 46) */
+  --stroke-wordmark-sm-art: 4.18px; /* 워드마크 그림 좌표 단위: 화면 2px ÷ (22 / 46) */
 
   /* 공통 레이아웃 (DESIGN.md app-layout) */
   --header-height: 48px;
