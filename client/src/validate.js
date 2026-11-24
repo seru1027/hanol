@@ -55,7 +55,9 @@ export function validateSignup({ loginId, name, password, passwordConfirm }) {
   if (pw.code) errors.password = pw.code;
 
   // 비밀번호 확인은 화면에서만 비교하고 서버로 보내지 않는다 (화면정의서 ⑪)
-  if (password !== passwordConfirm) errors.passwordConfirm = 'PASSWORD_MISMATCH';
+  // 다른 칸처럼 빈 칸을 먼저 본다. 둘 다 비면 '' === ''라 비교만으로는 통과해, 두 번째 제출에서야 오류가 났다 (2026-11-24)
+  if (passwordConfirm === '') errors.passwordConfirm = 'REQUIRED_PASSWORD_CONFIRM';
+  else if (password !== passwordConfirm) errors.passwordConfirm = 'PASSWORD_MISMATCH';
 
   return errors;
 }

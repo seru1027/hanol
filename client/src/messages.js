@@ -1,5 +1,5 @@
 // 응답 code → 화면 문구 사전 (API 명세서 0-2: message는 항상 null, 문구는 프론트가 code로 정한다)
-// 서버 코드와 프론트가 만든 코드(NETWORK_ERROR, PASSWORD_MISMATCH)를 한곳에 둔다
+// 서버 코드와 프론트가 만든 코드(NETWORK_ERROR, PASSWORD_MISMATCH, REQUIRED_PASSWORD_CONFIRM)를 한곳에 둔다
 const MESSAGES = {
   // 서비스명 (2026-11-16 확정, 영문 Hanol). 화면에 쓰는 서비스명은 이 값 하나에서 가져온다
   SERVICE_NAME: '한올',
@@ -17,6 +17,7 @@ const MESSAGES = {
   INVALID_PASSWORD_TYPE: '입력값을 확인하세요',
   INVALID_PASSWORD_LENGTH: '비밀번호는 8~64자로 입력하세요',
   INVALID_PASSWORD_FORMAT: '비밀번호에는 공백과 한글을 쓸 수 없습니다',
+  REQUIRED_PASSWORD_CONFIRM: '비밀번호를 한 번 더 입력하세요', // 프론트 전용
   PASSWORD_MISMATCH: '비밀번호가 일치하지 않습니다', // 프론트 전용
   SIGNUP_SUCCESS: '가입이 완료되었어요. 로그인해 주세요',
 
