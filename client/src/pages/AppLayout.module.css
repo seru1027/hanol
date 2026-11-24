@@ -181,10 +181,9 @@
   height: var(--icon-size);
 }
 
+/* 서비스명 워드마크 (Wordmark size sm). flex: 링크 높이가 워드마크 높이와 같아져 상단바 가운데에 놓인다 */
 .serviceName {
-  color: var(--color-ink);
-  font: var(--type-title) var(--font-sans);
-  letter-spacing: var(--tracking-title);
+  display: flex;
   text-decoration: none;
 }
 

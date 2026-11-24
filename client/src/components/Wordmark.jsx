@@ -6,7 +6,7 @@ import styles from './Wordmark.module.css';
 // 획은 먹색, '올'의 ㅇ만 실 색(주황). 굵기는 크기마다 그림 좌표 단위로 정해 작아도 실처럼 가늘다 (--stroke-wordmark-*-art)
 // 그림 좌표 79 × 46. 화면 읽기는 숨긴 글자 '한올'을 읽고, 그림은 건너뛴다
 //
-// size     'sm'(로그인 폼 위) | 'lg'(오른쪽 패널)
+// size     'sm'(로그인 폼 위·상단바) | 'lg'(오른쪽 패널)
 // drawO    false면 '올'의 ㅇ을 비워 둔다. 오른쪽 패널에서는 흘러내리는 실이 그 자리를 한 바퀴 그린다
 // svgRef   ㅇ 자리를 재야 하는 쪽(오른쪽 패널)이 그림 위치를 읽는 데 쓴다
 // drawPlan 주면 검은 획이 필순대로 한 획씩 그려진다: { han: { delay, duration }, ol: { delay, duration } }. 없으면 처음부터 보인다

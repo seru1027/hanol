@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { Link, NavLink, Outlet, useMatch } from 'react-router';
 import { api } from '../api.js';
 import { useAuth } from '../auth.jsx';
+import Wordmark from '../components/Wordmark.jsx';
 import Modal from '../components/Modal.jsx';
 import modalStyles from '../components/Modal.module.css';
 import { messageOf } from '../messages.js';
@@ -222,8 +223,8 @@ export default function AppLayout() {
                 <MenuIcon />
               </button>
             )}
-            {/* ① 서비스명 → 메인 */}
-            <Link to="/" className={styles.serviceName}>{messageOf('SERVICE_NAME')}</Link>
+            {/* ① 서비스명 → 메인. 로그인 폼 위와 같은 워드마크(움직이지 않음), 링크 이름은 워드마크의 숨긴 글자 '한올' */}
+            <Link to="/" className={styles.serviceName}><Wordmark size="sm" /></Link>
             {/* SCR-ORG-00 ① 위치 표시 '서비스명 > 동아리명'. 동아리 안(/orgs/:orgId/...)이고 목록에 이름이 있을 때만 */}
             {currentOrg && (
               <>
