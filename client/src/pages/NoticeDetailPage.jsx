@@ -122,12 +122,12 @@ export default function NoticeDetailPage() {
       {/* ⑦ 삭제 확인창: Modal을 칸 없이. 열리면 첫 버튼 [취소]에 커서 (잃는 쪽이 기본이 되지 않게) */}
       {confirmOpen && (
         <Modal title={messageOf('MODAL_DELETE_NOTICE_TITLE')} onClose={() => setConfirmOpen(false)} closable={!deleting}>
-          <p className={styles.confirmDesc}>{messageOf('MODAL_DELETE_NOTICE_DESC')}</p>
+          <p className={modalStyles.desc}>{messageOf('MODAL_DELETE_NOTICE_DESC')}</p>
           <div className={modalStyles.actions}>
             <button type="button" className={modalStyles.secondary} onClick={() => setConfirmOpen(false)} disabled={deleting}>
               {messageOf('BUTTON_CANCEL')}
             </button>
-            <button type="button" className={modalStyles.danger} onClick={remove} disabled={deleting}>
+            <button type="button" className={modalStyles.dangerConfirm} onClick={remove} disabled={deleting}>
               {messageOf(deleting ? 'BUTTON_DELETING' : 'BUTTON_DELETE')}
             </button>
           </div>

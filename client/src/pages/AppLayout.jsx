@@ -278,11 +278,12 @@ export default function AppLayout() {
           [나가기]는 입력을 버리므로 Danger. 요청 중에는 닫히지 않는다 */}
       {leaveConfirmOpen && (
         <Modal title={messageOf('MODAL_LEAVE_TITLE')} onClose={closeLeaveConfirm} closable={!loggingOut}>
+          <p className={modalStyles.desc}>{messageOf('MODAL_LEAVE_DESC')}</p>
           <div className={modalStyles.actions}>
             <button type="button" className={modalStyles.secondary} onClick={closeLeaveConfirm} disabled={loggingOut}>
               {messageOf('BUTTON_KEEP_WRITING')}
             </button>
-            <button type="button" className={modalStyles.danger} onClick={logout} disabled={loggingOut}>
+            <button type="button" className={modalStyles.dangerConfirm} onClick={logout} disabled={loggingOut}>
               {messageOf('BUTTON_LEAVE')}
             </button>
           </div>

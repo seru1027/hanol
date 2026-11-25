@@ -180,6 +180,7 @@ const MESSAGES = {
   BUTTON_SAVE: '저장',
   BUTTON_SAVING: '저장 중…',
   MODAL_LEAVE_TITLE: '작성 중인 내용이 사라져요', // 입력이 있을 때 [취소] (결정 S)
+  MODAL_LEAVE_DESC: '나가면 쓰던 제목과 내용은 저장되지 않아요.', // 나가기 확인창 설명 (2026-11-25)
   BUTTON_KEEP_WRITING: '계속 쓰기',
   BUTTON_LEAVE: '나가기',
 

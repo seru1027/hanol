@@ -16,6 +16,9 @@
   --color-fill-subtle: rgba(0, 0, 0, 0.05);
   --color-fill-strong: rgba(0, 0, 0, 0.09); /* fill-subtle 위 hover·열림 (원형 아이콘 버튼) */
   --color-danger: #d70015;
+  --color-danger-soft: #fdecee; /* 확인창 안 위험 버튼 바탕 (2026-11-25) */
+  --color-danger-soft-hover: #fbd9dd;
+  --color-danger-strong: #b00012; /* 연한 빨강 바탕 위 글자 (6.4:1) */
   /* sticker 색: 장식 전용 (메인 카드 색 띠). 상태·행동 표시에 쓰지 않는다 (DESIGN.md Colors) */
   --color-sticker-0: #62aef0; /* sky */
   --color-sticker-1: #d6b6f6; /* purple (밝아서 글자는 deep) */

@@ -111,6 +111,13 @@
 
 /* ---- 버튼 줄: 오른쪽 정렬 [취소] [주 행동] ---- */
 
+/* 확인창 설명 (칸 대신 한두 줄). 제목 아래, 버튼 위 */
+.desc {
+  margin: 0;
+  color: var(--color-ink-secondary);
+  font: var(--type-body-sm) var(--font-sans);
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -158,6 +165,20 @@
   color: var(--color-danger);
 }
 
+/* 확인창 안의 위험 버튼 ([삭제]·[나가기]): 연한 빨강 면 + 진한 빨강 굵은 글자, 그림자 없음 (2026-11-25, Figma 05 공통 ⑤ C)
+   화면에 늘 보이는 [삭제](.danger)보다 무겁게: 되돌릴 수 없는 일을 마지막으로 고르는 자리 */
+.dangerConfirm {
+  composes: secondary;
+  background: var(--color-danger-soft);
+  color: var(--color-danger-strong);
+  font: var(--type-button-strong) var(--font-sans);
+  box-shadow: none;
+}
+
+.dangerConfirm:active {
+  background: var(--color-danger-soft-hover);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .primary:not(:disabled):hover {
     background: var(--color-primary-active);
@@ -166,6 +187,11 @@
 
   .secondary:not(:disabled):hover {
     box-shadow: var(--shadow-2);
+  }
+
+  .dangerConfirm.dangerConfirm:not(:disabled):hover {
+    background: var(--color-danger-soft-hover);
+    box-shadow: none;
   }
 }
 

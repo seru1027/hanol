@@ -295,11 +295,12 @@ function NoticeForm({ orgId, noticeId, initial }) {
           [나가기]는 입력을 버리므로 Danger. Esc·바깥 누르기는 [계속 쓰기]와 같다 */}
       {blocker.state === 'blocked' && (
         <Modal title={messageOf('MODAL_LEAVE_TITLE')} onClose={() => blocker.reset()}>
+          <p className={modalStyles.desc}>{messageOf('MODAL_LEAVE_DESC')}</p>
           <div className={modalStyles.actions}>
             <button type="button" className={modalStyles.secondary} onClick={() => blocker.reset()}>
               {messageOf('BUTTON_KEEP_WRITING')}
             </button>
-            <button type="button" className={modalStyles.danger} onClick={() => blocker.proceed()}>
+            <button type="button" className={modalStyles.dangerConfirm} onClick={() => blocker.proceed()}>
               {messageOf('BUTTON_LEAVE')}
             </button>
           </div>
