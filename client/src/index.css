@@ -75,6 +75,9 @@
     rgba(0, 0, 0, 0.027) 0 2.025px 7.847px, rgba(0, 0, 0, 0.04) 0 4px 18px;
   --shadow-2: rgba(0, 0, 0, 0.01) 0 1px 3px, rgba(0, 0, 0, 0.02) 0 3px 7px,
     rgba(0, 0, 0, 0.02) 0 7px 15px, rgba(0, 0, 0, 0.04) 0 14px 28px, rgba(0, 0, 0, 0.05) 0 23px 52px;
+  /* 주 버튼(주황): Level 1 + 같은 색 빛. 회색 그림자만으로는 주황 위에서 잘 안 보여서 (2026-11-25, Figma 05 공통 ④ B) */
+  --shadow-primary: var(--shadow-1), rgba(240, 96, 63, 0.28) 0 4px 12px;
+  --shadow-primary-hover: var(--shadow-2), rgba(240, 96, 63, 0.4) 0 6px 16px;
 
   /* 상태·크기 */
   --border-width: 1px;

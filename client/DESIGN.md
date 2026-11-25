@@ -295,7 +295,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 ### 버튼
 | 종류 | 모양 | 쓰는 곳 |
 |---|---|---|
-| Primary | 원본 `button-primary`. 여백 `{spacing.xs}` × `{spacing.md}` (원본에 값 없음) | 화면의 주 행동 (로그인, 가입하기, 다시 시도). 폼 안에서는 폼 폭을 꽉 채운다 |
+| Primary | 원본 `button-primary`. 여백 `{spacing.xs}` × `{spacing.md}` (원본에 값 없음). 그림자 `--shadow-primary` = Level 1 + 주황 빛(0 4px 12px, 28%), hover는 `--shadow-primary-hover` = Level 2 + 주황 빛(0 6px 16px, 40%) (2026-11-25. 평평하면 흰 버튼 옆에서 따로 놀고, 회색 그림자만으로는 주황 위에서 약해서. Figma 05 공통 ④ B) | 화면의 주 행동 (로그인, 가입하기, 다시 시도). 폼 안에서는 폼 폭을 꽉 채운다 |
 | Secondary | 원본 `button-secondary` (흰색 pill + Level 1 그림자) | 보조 행동 (취소, 메인으로) |
 | Utility | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 4px × 14px) | 목록·도구 안의 작은 행동 |
 | Danger | Secondary 모양에 글자 `{colors.danger}` (`Modal.module.css`의 `.danger`가 `.secondary`를 `composes`) | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
@@ -345,7 +345,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 
 | 규칙 | 값 | 이유 |
 |---|---|---|
-| hover | 마우스가 있는 기기에서만 (`@media (hover: hover) and (pointer: fine)`). 행·메뉴 행은 바탕 `{colors.fill-subtle}`, 선택 안 된 탭은 글자 `{colors.ink}`, Primary는 바탕 `{colors.primary-active}` | 터치에서 누른 뒤 hover 모양이 남지 않게. 원본 utility 문법(옅은 회색 면) 안에서 |
+| hover | 마우스가 있는 기기에서만 (`@media (hover: hover) and (pointer: fine)`). 행·메뉴 행은 바탕 `{colors.fill-subtle}`, 선택 안 된 탭은 글자 `{colors.ink}`, Primary는 바탕 `{colors.primary-active}` + `--shadow-primary-hover` | 터치에서 누른 뒤 hover 모양이 남지 않게. 원본 utility 문법(옅은 회색 면) 안에서 |
 | 색 바뀜 | `background-color`·`color`·`border-color`·`box-shadow`만 150ms `ease` (`--duration-fast`) | 자주 쓰는 조작이라 짧게. `transition: all`은 쓰지 않는다 |
 | 팝오버(프로필 메뉴) 열림 | 150ms 강한 ease-out (`--ease-out`), `opacity 0 → 1` + `translateY(-4px) scale(0.97) → 제자리`, 기준점은 아이콘 쪽(`top right`). 닫힐 때는 바로 사라짐 | 아이콘에서 나온다는 위치 단서. 닫힘은 열림보다 빨라야 한다 |
 | 움직임 줄이기 설정 | `prefers-reduced-motion: reduce`면 위치·크기 움직임(메뉴 이동, 누름 축소)을 없애고 색·투명도만 남긴다 | 멀미 방지. 이해를 돕는 색 변화는 남긴다 |

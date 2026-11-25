@@ -96,6 +96,7 @@
 
   .submit:not(:disabled):hover {
     background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #c9452a */
+    box-shadow: var(--shadow-primary-hover);
   }
 }
 
@@ -231,8 +232,11 @@
   background: var(--color-primary-active); /* 앱 안 주 버튼(#f0603f)보다 한 단계 어두운 주황 #d9532f (흰 글자 4.0:1, 2026-11-25) */
   color: var(--color-on-primary);
   font: var(--type-button-strong) var(--font-sans);
+  box-shadow: var(--shadow-primary); /* 앱 안 주 버튼과 같은 그림자 (2026-11-25) */
   cursor: pointer;
-  transition: background-color var(--duration-fast) ease;
+  transition:
+    background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
 }
 
 .submit:active {
