@@ -1,0 +1,46 @@
+/* 목록 빈 상태 (client/DESIGN.md list-table). 값은 index.css의 :root만 쓴다 */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-section) var(--space-lg);
+  text-align: center;
+}
+
+/* 승인 뒤 목록이 비면 커서가 이 자리로 온다(가입 신청). outline은 키보드로 왔을 때만 */
+.empty:focus {
+  outline: none;
+}
+
+.empty:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(var(--focus-offset) * -1 - var(--border-width) * 2);
+}
+
+/* 로딩과 같은 크기·색의 실 고리, 다 그린 모양으로 멈춤 */
+.loop {
+  width: var(--loading-loop-size);
+  height: var(--loading-loop-size);
+  margin-bottom: var(--space-sm);
+  overflow: visible;
+}
+
+.loop path {
+  fill: none;
+  stroke: var(--color-thread);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-ink);
+  font: var(--type-body-sm-strong) var(--font-sans);
+}
+
+.desc {
+  margin: var(--space-xxs) 0 0;
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+}

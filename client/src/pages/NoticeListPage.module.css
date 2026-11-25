@@ -35,6 +35,3 @@
   composes: meta from '../components/ListTable.module.css';
 }
 
-.empty {
-  composes: empty from '../components/ListTable.module.css';
-}

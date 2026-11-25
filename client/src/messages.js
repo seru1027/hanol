@@ -99,6 +99,8 @@ const MESSAGES = {
   BUTTON_WRITE: '글쓰기',
   LINK_ALL_NOTICES: '공지 전체 보기', // → 아이콘의 이름 (화면 읽기 프로그램·마우스 title)
   NOTICES_EMPTY: '아직 공지가 없어요',
+  NOTICES_EMPTY_DESC_MANAGER: '첫 공지를 쓰면 회원 모두에게 보여요', // 공지 목록 빈 상태 설명 (회장·운영진)
+  NOTICES_EMPTY_DESC_MEMBER: '공지가 올라오면 여기에서 볼 수 있어요', // 공지 목록 빈 상태 설명 (회원)
   BOX_MEMBERS: '멤버',
   BOX_MEMBERS_COUNT: '멤버 {n}명',
   LINK_ALL_MEMBERS: '회원 전체 보기',

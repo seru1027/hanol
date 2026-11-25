@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router';
 import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 import PageTitle from '../components/PageTitle.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDate } from '../format.js';
@@ -48,13 +49,14 @@ export default function NoticeListPage() {
           )
         }
       />
-      <NoticeList orgId={orgId} result={result} onRetry={retry} />
+      <NoticeList orgId={orgId} result={result} onRetry={retry} canWrite={canWrite} />
     </section>
   );
 }
 
 // 목록 자리: 로딩 / 오류 / 0건 / 표
-function NoticeList({ orgId, result, onRetry }) {
+// canWrite: 빈 상태 설명을 역할에 맞게 고른다 (회장·운영진은 '첫 공지를 쓰면…', 회원은 '올라오면…')
+function NoticeList({ orgId, result, onRetry, canWrite }) {
   if (!result || result.status === 401) return <StatusPanel kind="loading" />; // 401은 공통 처리가 /login으로
   const { status, notices } = result;
   // 403·404·400은 보통 OrgLayout(ORG-03)이 먼저 막는다. 그 사이 상태가 바뀐 경우만 여기로 온다
@@ -65,7 +67,10 @@ function NoticeList({ orgId, result, onRetry }) {
   if (notices.length === 0) {
     return (
       <div className={styles.box}>
-        <p className={styles.empty}>{messageOf('NOTICES_EMPTY')}</p>
+        <EmptyState
+          title={messageOf('NOTICES_EMPTY')}
+          desc={messageOf(canWrite ? 'NOTICES_EMPTY_DESC_MANAGER' : 'NOTICES_EMPTY_DESC_MEMBER')}
+        />
       </div>
     );
   }

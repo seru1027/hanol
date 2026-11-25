@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useOutletContext } from 'react-router';
 import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 import PageTitle from '../components/PageTitle.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDateTime } from '../format.js';
@@ -148,10 +149,12 @@ function RequestList({ result, onRetry, orgId, approvingIds, onApprove, buttonRe
   if (requests.length === 0) {
     return (
       <div className={styles.box}>
-        <div className={styles.empty} ref={emptyRef} tabIndex={-1}>
-          <p className={styles.emptyTitle}>{messageOf('JOIN_REQUESTS_PAGE_EMPTY')}</p>
-          <p className={styles.emptyDesc}>{messageOf('JOIN_REQUESTS_PAGE_EMPTY_DESC')}</p>
-        </div>
+        <EmptyState
+          ref={emptyRef}
+          tabIndex={-1}
+          title={messageOf('JOIN_REQUESTS_PAGE_EMPTY')}
+          desc={messageOf('JOIN_REQUESTS_PAGE_EMPTY_DESC')}
+        />
       </div>
     );
   }

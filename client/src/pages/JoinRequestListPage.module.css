@@ -46,31 +46,3 @@
 .approve {
   composes: utility from './OrgHomePage.module.css';
 }
-
-/* ⑥ 0건: 상자 안 가운데 두 줄 (와이어프레임) */
-.empty {
-  padding: var(--space-section) var(--space-lg);
-  text-align: center;
-}
-
-/* 승인으로 커서가 옮겨 올 때만 받는 자리라 outline은 키보드로 왔을 때만 */
-.empty:focus {
-  outline: none;
-}
-
-.empty:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: calc(var(--focus-offset) * -1 - var(--border-width) * 2);
-}
-
-.emptyTitle {
-  margin: 0;
-  color: var(--color-ink);
-  font: var(--type-body-sm-strong) var(--font-sans);
-}
-
-.emptyDesc {
-  margin: var(--space-xs) 0 0;
-  color: var(--color-ink-muted);
-  font: var(--type-caption) var(--font-sans);
-}

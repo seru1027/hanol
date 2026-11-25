@@ -59,13 +59,6 @@
   text-overflow: ellipsis;
 }
 
-.empty {
-  margin: 0;
-  padding: var(--space-lg);
-  color: var(--color-ink-muted);
-  font: var(--type-caption) var(--font-sans);
-}
-
 /* hover는 누를 수 있는 행(링크)만, 마우스 기기만 (DESIGN.md motion) */
 @media (hover: hover) and (pointer: fine) {
   a.row:hover {
