@@ -29,8 +29,8 @@ Surfaces are defined by hairlines and the faintest layered shadows rather than h
 > Source pages analysed: the Notion home page plus Pricing, Enterprise, Product (AI), Product (Agents), and Startups. Every secondary page resolved to the same core palette — Notion runs one tightly-scoped system across the marketing site.
 
 ### Brand & Accent
-- **Notion Blue** (`{colors.primary}` — #0075de): the single structural accent. Primary CTA fill ("Get Notion free"), inline link colour, active-tab and focus signal. This is the only colour that ever paints an action.
-- **Pressed Blue** (`{colors.primary-active}` — #005bab): the darker press state of the primary CTA.
+- **[바꿈] 강조색 = 실 색** (`{colors.primary}` — #f0603f, 2026-11-25. 원본 Notion Blue #0075de 대신, Figma 05 화면 개선에서 비교 후 결정): **주 버튼 바탕에만** 쓴다(글쓰기·저장·만들기·신청·다시 시도·로그인/가입하기). 처음엔 focus·입력칸 테두리·토스트 아이콘·선택된 메뉴까지 바꿨으나 주황이 너무 많아 되돌렸다: focus·입력칸 테두리와 성공 토스트 아이콘은 먹색 `{colors.ink}`, 선택된 메뉴는 회색 면. 흰 글자 대비가 3.3:1이라 작은 글자 기준(4.5:1)에 못 미친다는 것을 알고 고른 예외 → 주 버튼 글자는 굵게(`--type-button-strong` 600). 강조색 글자는 쓰지 않는다(실 색 글자가 필요하면 `--color-thread-text`). 실 색은 그 밖에 워드마크 '올'·로딩 고리·빈 상태 고리(실 모티프)에만. (원본: the single structural accent. Primary CTA fill ("Get Notion free"), inline link colour, active-tab and focus signal. This is the only colour that ever paints an action.
+- **Pressed** (`{colors.primary-active}` — #d9532f, 원본 #005bab): hover·누름에서 한 단계 진하게.
 - **Deep Indigo** (`{colors.secondary}` — #213183): the dark hero "night" band background and its sticker-constellation field; a deep brand-blue used for full-bleed inverted sections.
 
 The remaining colours form Notion's **decorative sticker palette** — they appear only as illustrated blocks, app stickers and category dots, never as CTAs or structural fills:
@@ -288,7 +288,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 
 | 상태 | 모양 |
 |---|---|
-| Focus | 테두리 `{colors.primary}` + Level 1 그림자 (원본: Focus는 Level 1, 파랑은 focus 신호) |
+| Focus | 테두리 `{colors.ink}` 먹색 + Level 1 그림자 (원본은 파랑. 주황은 주 버튼에만이라 먹색, 2026-11-25) |
 | Error | 테두리 `{colors.danger}` + 오류 문구. 그 칸을 고치면 둘 다 사라진다 (화면정의서 결정 H). 회원가입(`auth-card`)만: 오류 문구를 칸 아래가 아니라 라벨 줄 오른쪽에 둔다(라벨과 글자 아래선 맞춤). 칸 아래 새 줄이면 오류마다 아래 칸·버튼이 28px씩 밀렸다(4칸이면 112px). 라벨 줄 높이가 같아 밀림 0, 도움말은 칸 아래에 그대로 (2026-11-24 [추가함]) |
 | Disabled (요청 중 잠금) | 바탕 `{colors.canvas-soft}`, 글자 `{colors.ink-faint}` |
 
@@ -303,7 +303,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | 상태 | 모양 |
 |---|---|
 | Active | Primary는 바탕 `{colors.primary-active}` (원본 `button-primary-pressed`). `scale(0.9)`는 원본에서 마케팅 버튼과 원형 아이콘 버튼에만 쓰므로 앱 버튼에는 쓰지 않는다 |
-| Focus | `outline: 2px solid {colors.primary}`, `outline-offset: 2px` |
+| Focus | `outline: 2px solid {colors.ink}`(`--focus-ring`, 2026-11-25 파랑에서 먹색), `outline-offset: 2px` |
 | Disabled (요청 중 잠금) | `opacity: 0.4`, `cursor: default` |
 
 ### `segmented-tabs` — 탭
@@ -326,7 +326,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | 머리말 | 작은 워드마크 '한올'(`components/Wordmark.jsx` size sm, 높이 22px·획 2px(그림 좌표 4.18), '올'의 ㅇ만 실 색. 화면 읽기는 숨긴 글자 `SERVICE_NAME`, 2026-11-19 [추가함]). 크기는 제목 32px의 약 0.7배(18·22·26px 비교 후 22px, 2026-11-24). 작을수록 높이에 비해 획을 굵게 한다(sm 약 9%, lg 6.6%): 1~2px 선은 픽셀 경계에서 흐려지기 때문. 서비스명 자리는 예전 글자 한 줄 높이(`--auth-brand-slot` 20px)로 두고, 워드마크가 그보다 큰 만큼 위로 올려(`line-height: 0` + 음수 margin) 제목·첫 칸·링크 위치를 지킨다 → 화면 제목 32px weight 600 (`--type-auth-title`, 레퍼런스 크기. heading-1 40px는 이 화면에서 폼보다 무겁다) ('다시 오셨네요' / '계정 만들기'. 바로 위 서비스명과 겹치지 않게), 첫 칸까지 약 56px → 부제 `{typography.body-md}` `{colors.ink-muted}` |
 | 오른쪽 패널 | `pages/AuthPanel.jsx`. 바탕 따뜻한 베이지 `--color-auth-panel`(#ece3d6, 폼 바탕과 같은 계열이라 폼이 주인공으로 남는다. 원본 `hero-band` 남색 대신. 2026-11-19 사용자 결정). 폼 쪽 두 모서리만 45px (`--radius-auth-panel`), 화면 높이에 고정(sticky). **그림**: 실뜨기 한 줄 그림 — 위 두 손 + 오른쪽 아래에서 올라온 손(오른쪽 위 손을 복제해 돌리고 검지 끝을 갈고리로)이 코랄 실(`--color-thread` #f0603f, 빨강 오류색·'붉은 실'과 구분) 하나로 이어진다. 손은 윤곽만(손톱·주름 없음) `--color-line-art` `--stroke-hand` 2.5px, 실 `--stroke-thread` 2px. 실은 손 뒤로 지나가고(손 안쪽을 바탕색으로 채움), 손가락 고리의 앞쪽 띠만 손 위에 그린다(밑에 바탕색 7px 띠를 깔아 윤곽선을 끊음). Figma 04 Components `auth-panel-illustration (P3)`에서 Figma AI로 초안을 만들고 다듬어 SVG로 옮겼다. 그림 좌표 734×900, `xMidYMin slice`(위에 맞춰 꽉 채움). 장식이라 `aria-hidden`. **글자**: 왼쪽 아래(여백 `{spacing.section}`, 폭 560px) 큰 워드마크(`Wordmark` size lg, 높이 53px·획 3.5px) → 32px 띄우고 슬로건 '한 올 한 올, 가깝게 이어지는 우리 모임' 26px weight 600(`--type-auth-tagline`, heading-2보다 한 단계 가볍게), '한 올 한 올'만 `--color-thread-text`(#c9452a, 베이지 위 3.8:1. 실 색 그대로는 2.6:1이라 글자용으로 진하게) → 뜻 "한올은 … '한올지다'에서 왔어요." `{typography.body-md}` `{colors.ink-muted}`(베이지 위 5.1:1). 슬로건 → 뜻 사이 `{spacing.lg}`. 왼쪽 위 손 고리에서 풀린 실이 끊기지 않고 내려와 워드마크 '올'의 ㅇ을 한 바퀴 그리고 끝난다(ㅇ은 워드마크 획 굵기, 워드마크 위치를 재서 이어 그림). **움직임**: 손이 먼저 들어오고 실이 한 번 그려진다(Motion). 손 세 개는 각자 팔이 뻗은 방향의 화면 밖 쪽에서 60px 미끄러져 들어오며 나타난다(`motion.g` x·y·opacity, 0.5초 `--ease-out`, 0.08초씩 어긋남). 0.6초부터 실 **한 올**(`motion.path`의 `pathLength` 0 → 1): 한붓그리기로 ① 왼쪽 위 손 고리 → ② 오른쪽 위 가운데 손가락(감고) → 아래 손 검지 → ③ 엄지(감고) → ④ 왼쪽 위 안쪽 손가락(감고) → 검지 → ① 감고 → 바깥쪽 끝에서 풀려 흘러내림 → 워드마크 ㅇ 입구까지 한 path(길이 ÷ 1000px/초, 천천히 풀리기 시작). 같은 path를 두 겹으로 같은 시간에 그린다: 손 뒤 겹(전체) + 손 앞 겹(고리 띠 자리만 mask). → 넘겨받은 속도로 ㅇ을 감으며 멈춤(0.45초). 글자도 맞춰 나타난다: '한'은 실이 ㅇ에 닿기 0.5초 전부터 필순대로 한 획씩(획 길이에 비례한 시간), '올'의 ㅗ·ㄹ은 실이 ㅇ을 감기 시작하고 0.2초 뒤부터 0.45초 동안(`Wordmark` drawPlan). 그 뒤 슬로건 → 0.1초 뒤 뜻 줄이 8px 올라오며 나타난다(0.4초 ease-out). 1440에서 약 3.6초. 그리는 동안은 선 끝을 평평하게(`butt`), 다 그리면 둥글게(`round`) 바꾼다(`components/DrawPath.jsx`). 둥근 끝은 길이 0이거나 아주 짧은 선도 굵기만 한 점으로 보이게 해서, 시간 값으로 가리면 프레임 타이밍에 따라 점이 보였다 안 보였다 한다. 평평한 끝은 길이 0이면 아무것도 그리지 않아 구조적으로 점이 생기지 않는다. 실의 속도 곡선도 첫 기울기를 0이 아니게(`[0.3, 0.15, 0.75, 0.75]`) 해 시작점에 머무르지 않게 한다. 워드마크 굵기는 그림 좌표 단위(`--stroke-wordmark-*-art`)로 주고 `non-scaling-stroke`는 쓰지 않는다. 폼 위 작은 워드마크는 처음부터 보인다(폼은 기다리지 않고 바로 쓴다) 이 탭에서 처음 한 번만(`sessionStorage` `hanol.authThreadDrawn`), 움직임 줄이기 설정이면 처음부터 다 그려진 상태(`useReducedMotion`) [추가함] 패널은 `<aside aria-label="서비스 소개">`라 글자는 읽힌다 **[추가함]** |
 | 비밀번호 칸 | 칸 안 오른쪽에 글자 버튼 [보기]/[숨기기] (`{typography.caption}` `{colors.ink-muted}`, 테두리 없음, hover `{colors.fill-subtle}`). 칸의 오른쪽 여백을 버튼 폭만큼 넓힌다 |
-| 주 버튼 | 폼 폭을 꽉 채운 Primary 모양, 색은 파랑 대신 그림 선과 같은 먹색 `--color-line-art`(누름·hover `--color-auth-button-active`). 오른쪽 그림과 한 화면으로 묶는다(2026-11-19 [추가함]). 앱 안의 다른 Primary는 파랑 그대로. 요청 중에는 문구도 바뀐다 ('로그인 중…', '가입 중…') |
+| 주 버튼 | 폼 폭을 꽉 채운 Primary 모양, 앱 안 주 버튼보다 한 단계 어두운 주황 `{colors.primary-active}` #d9532f(흰 글자 4.0:1), 누름·hover `--color-thread-text` #c9452a, 글자 굵게. 처음엔 먹색이었지만(2026-11-19) 강조색을 실 색으로 바꾸면서 주황으로, 베이지 패널 옆에서 밝아 보여 한 단계 어둡게 했다(2026-11-25, 사용자 요청). 전환 링크는 먹색 그대로. 요청 중에는 문구도 바뀐다 ('로그인 중…', '가입 중…') |
 | 만료 안내 | `{colors.fill-subtle}` 바탕(같은 색 바탕 위에서 보이게), `{rounded.md}`, `{typography.caption}`. 오류가 아니라 안내라 빨강을 쓰지 않는다 |
 
 ### `toast` — 결과 알림
@@ -338,7 +338,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | 쌓임 | 같은 문구의 오류는 하나만 (`toast.error(문구, { id: 문구 })`, 500·네트워크처럼 코드가 달라도 문구가 같으면 하나, 다시 나면 그 토스트가 3초를 새로 센다). 쌓인 토스트가 오른쪽 아래 폼 버튼(공지 [올리기])을 가렸기 때문 [추가함, F8]. 성공 토스트는 결과마다 달라 쌓아 둔다 |
 | 상자 | 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.sm}` × `{spacing.md}` |
 | 글자 | `{typography.caption}`, `{colors.ink}` |
-| 아이콘 | 성공 `{colors.primary}`, 오류 `{colors.danger}` |
+| 아이콘 | 성공 `{colors.ink}`(2026-11-25 파랑에서 먹색), 오류 `{colors.danger}` |
 
 ### `motion` — 움직임·hover·누르는 범위
 원본은 "No hover states documented"(Default·Pressed만 있음)라서, 앱으로 쓰려고 채운 규칙이다. UI 스킬(make-interfaces-feel-better, emil-design-eng, fixing-accessibility) 기준.
@@ -365,7 +365,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 묶음 | 성격이 다른 항목은 묶음으로 나누고 묶음 사이를 20px 띄운다 (`--nav-section-gap`. 16px은 좁고 24px은 떨어져 보여 가운데로. Claude·Notion 사이드바 묶음 간격 범위 안). 지금 묶음: 이동(홈) / 내 동아리 목록. 새 항목을 넣을 때도 같은 성격끼리 묶는다 |
 | 묶음 제목 (내 동아리 ▾) | 아래 행보다 작고 흐린 글자: `{typography.eyebrow}`(12px, weight 600), `{colors.ink-muted}` (Notion '개인 페이지', Claude 프로젝트 이름처럼 글자 크기·색으로 '제목'과 '항목'을 나눈다). 누르면 목록을 접고 펼치는 버튼이라 행과 같은 여백·hover는 유지 |
 | 행 (홈, 내 동아리, 동아리) | 원본 `ex-app-shell-row`: `{typography.body-sm}`, `{colors.ink-secondary}`, `{rounded.sm}`, 여백 6px × `{spacing.xs}`. 동아리는 들여쓰지 않고 '내 동아리'와 같은 줄에서 시작(묶음 간격으로 이미 한 덩어리로 보임), 길면 말줄임 |
-| 현재 화면 행 | 원본 "active indicator = primary": 글자 `{colors.primary}`, weight 600 + 바탕 `--color-fill-strong`(9%). 마우스를 올린 행은 한 단계 옅은 `{colors.fill-subtle}`(5%)이라 '지금 보는 곳'과 '가리키는 곳'이 구분된다 (Claude 사이드바처럼). 현재 화면 행은 마우스를 올려도 그대로 |
+| 현재 화면 행 | 먹색 글자 weight 600 + 바탕 `--color-fill-strong`(9%) (2026-11-25. 전에는 파란 글자. 주황은 주 버튼에만이라 중립색으로). 마우스를 올린 행은 한 단계 옅은 `{colors.fill-subtle}`(5%)이라 '지금 보는 곳'과 '가리키는 곳'이 구분된다. 현재 화면 행은 마우스를 올려도 그대로 |
 | PENDING | `{colors.ink-muted}` + ' · 대기중' |
 | 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-muted}` |
 | 상단바 | 원본 `nav-bar`: 흰색, 아래 1px hairline, 높이 48px (`--header-height`, 아이콘 32 + 위아래 `{spacing.xs}`), 좌우 여백 `{spacing.md}` |
@@ -373,7 +373,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 파비콘·탭 설명 | `client/public/favicon.svg`: 주황 실(`--color-thread` 값 #f0603f) 한 가닥이 고리를 만드는 매듭, 바탕 없음(주황 한 색이라 밝은·어두운 탭 모두 보임), 32 좌표 획 3.2(16px에서 1.6px). 왼쪽(입구)과 오른쪽(출구) 모두 곡선 하나로 완만하게, 출구만 오른쪽 위로 기울인다. `apple-touch-icon.png` 180px: 같은 고리, 베이지 `--color-auth-panel` 값으로 꽉 찬 바탕(iOS는 투명 부분을 검정으로 채움). 탭 설명 `meta description` '동아리 공지와 회원, 가입 신청을 한곳에서 관리하세요.' (index.html은 messages.js를 못 읽어 `<title>`과 함께 예외). 글자 기반 안('올'·'한'·'한올')은 16px에서 뭉개지거나 졸라맨처럼 보여 실 모티프로 바꿨다. SVG 주석 안에 `--`를 쓰면 XML 오류로 아이콘이 안 보인다 (2026-11-24) |
 | 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.96)` (`motion` 참고). hover와 메뉴가 열려 있는 동안은 한 톤 진한 `--color-fill-strong`(9% 검정) |
 | 프로필 메뉴 | 팝오버: 흰색, 1px hairline, `{rounded.lg}`(12), Level 2 그림자, 여백 `{spacing.xs}`(8), 폭 240px. **머리**: 아바타 원(프로필 아이콘과 같은 32px, 누를 수 없는 그림) + 이름 `{typography.body-sm}` weight 600 / 아이디 `{typography.caption}` `{colors.ink-muted}`, 길면 말줄임 (Notion·Claude 계정 메뉴처럼 누구로 로그인했는지 한눈에). 구분선 hairline. **메뉴 행**: 선 아이콘 18px(`--icon-size-sm`, 굵기 1.5, `{colors.ink-secondary}`) + 글자 `{typography.body-sm}`, 모서리 4px (= 카드 12 − 여백 8, 겹친 모서리를 나란히), hover `{colors.fill-subtle}`. 로그아웃은 위험한 동작이 아니라 빨강을 쓰지 않고, 요청 중에는 '로그아웃 중…'. 키보드(Enter·Space)로 열면 커서가 첫 항목으로 가고, 마우스로 열면 옮기지 않는다 |
-| 본문 자리 | `{colors.canvas-soft}` 위에 여백 `{spacing.xxl}`. 제목 줄은 `{typography.heading-2}` |
+| 본문 자리 | `{colors.canvas-soft}` 위에 여백 `{spacing.xxl}`. 내용은 최대 폭 1040px(`--content-max-width`) 안에서 가운데 (`.content > *`, 2026-11-25. 1440에서 표의 한 행이 한눈에 읽히게). 제목 줄은 `{typography.heading-2}` |
 | 앱 시작 | `status-panel`을 화면 전체 가운데에 (로딩, 실패면 500 패널 + [다시 시도] = AUTH-03 다시 요청) |
 
 ### `status-panel` — 공통 상태 패널 (SCR-COMMON-02)
@@ -427,7 +427,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 머리 줄 | `{typography.eyebrow}`(12px 600) `{colors.ink-muted}`, 위아래 여백 `{spacing.xs}`(높이 약 33, 행 44보다 낮게), 아래 선 `{colors.input-border}`(hairline보다 한 단계 진하게). 처음엔 caption muted 같은 높이였는데 첫 공지 행처럼 보여서 바꿨다 (2026-11-09, 바탕색 안과 스크린샷 비교 후 결정). 글자색은 처음 `{colors.ink-faint}`였지만 2.6:1이라 보조 글자 색 규칙(읽는 글자는 muted)의 예외가 되어 `{colors.ink-muted}`로 바꿨다. 행과의 구분은 크기·높이·아래 선이 맡는다 (2026-11-10 F6 전). 눈으로 보는 칸 이름이라 `aria-hidden` (행 링크가 세 칸을 모두 읽어 준다) |
 | 행 | 행 전체가 링크 하나. 제목 `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임, 작성자·작성일 caption muted 고정폭 숫자. 행 사이 hairline, hover `{colors.fill-subtle}` (상자 모서리 안에서 잘림). Focus는 상자가 바깥을 자르므로 행 안쪽에 2px primary outline |
 | 로딩·500 | 제목 줄은 남기고 목록 자리에 `status-panel` |
-| 0건 | 흰 상자 안 caption muted '아직 공지가 없어요' (머리 줄 없이) |
+| 0건 | 흰 상자 안 `components/EmptyState.jsx`(머리 줄 없이): 멈춘 실 고리 40px `--color-thread` → `{spacing.sm}` → '아직 공지가 없어요' body-sm 600 → `{spacing.xxs}` → 설명 caption muted. 설명은 역할별: 회장·운영진 '첫 공지를 쓰면 회원 모두에게 보여요', 회원 '공지가 올라오면 여기에서 볼 수 있어요' (2026-11-25) |
 | 상세 배치 | '← 공지 목록'(`org-layout` 상위 링크) → 제목 줄 '공지' + [수정] Secondary · [삭제] Danger (회장·운영진만, 내용을 불러온 뒤에만) → 흰 상자(목록과 같은 면, 여백 `{spacing.lg}`). 와이어프레임은 상자 없이 바탕 위에 바로였지만, 목록·홈 박스와 같은 흰 면으로 맞췄다 (F5 결정 3) |
 | 상세 상자 안 | 제목 `{typography.title}` (`h2`, 페이지 `h1`은 제목 줄 '공지') → 간격 `{spacing.sm}` → 작성 정보 caption muted 고정폭 숫자 '작성자 · 2026.04.02 18:30', 수정된 적이 있으면 뒤에 '· 수정됨 2026.04.03 09:10' → 간격 `{spacing.sm}` 뒤 hairline → 간격 `{spacing.md}` → 본문 `{typography.body}` `white-space: pre-wrap`(줄바꿈·연속 공백 유지). 제목·본문 모두 `overflow-wrap: anywhere`(공백 없는 긴 글자도 상자 안에서 접힘) |
 | 본문 출력 | React 기본 출력(`{content}`)만. 글자가 escape되어 `<script>`도 글자로 보인다. `dangerouslySetInnerHTML` 금지 (XSS) |
@@ -454,7 +454,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | hover·Focus | 누를 수 있는 행(링크)만. 누를 수 없는 행(회원 목록)은 hover 없음 |
 | 회원 목록 (SCR-MEMBER-01) | 칸은 응답에 온 항목만: 회장·운영진 이름(남는 폭) · 아이디 220 · 가입일 160 · 역할 160 / 일반 회원 이름 · 역할 160 (`--member-col-*`, 와이어프레임 값). 칸 수가 응답에 따라 달라 칸 나눔은 `.jsx`가 style로 넘긴다. 행은 `li` 글자라 hover·focus 없음, 머리 줄도 화면 읽기 프로그램에 읽힌다(`aria-hidden` 없음). 와이어프레임 행 높이 38 대신 다른 표와 같은 44 |
 | 가입 신청 (SCR-JOIN-02) | 칸: 이름(남는 폭) · 아이디 200 · 신청 시각 200(2026.04.01 13:20) · 행동 180 (`--join-col-*`, 와이어프레임 값). 행동 칸 머리는 비움. [승인]은 `home-box` utility 32px, 칸 오른쪽 끝. 버튼 있는 행은 세로 여백 6px(`--space-input`)로 행 높이 44 (와이어프레임 61 대신 다른 표와 같게). 요청 중에는 그 버튼만 '승인 중…' + Disabled(0.4), 다른 행은 그대로 누를 수 있다. 버튼 이름은 '정신입 승인'처럼 신청자 이름을 붙인다(`aria-label`) |
-| 가입 신청 0건 | 흰 상자 안 가운데, 위아래 `{spacing.section}`: '대기 중인 가입 신청이 없어요' `{typography.body-sm}` 600(`--type-body-sm-strong`) → 간격 `{spacing.xs}` → 안내 caption muted. 마지막 신청을 승인하면 커서가 이 자리로 온다(`tabIndex=-1`, outline은 키보드로 왔을 때만) |
+| 가입 신청 0건 | 공지 0건과 같은 `EmptyState`(멈춘 실 고리 + 두 줄, 위아래 `{spacing.section}`, 2026-11-25): '대기 중인 가입 신청이 없어요' → 안내 caption muted. 마지막 신청을 승인하면 커서가 이 자리로 온다(`tabIndex=-1`, outline은 키보드로 왔을 때만) |
 | 행이 빠진 뒤 커서 | 누른 버튼이 사라지면 다음 행 [승인] → 없으면 이전 행 → 0건이면 빈 목록 문구. 그사이 다른 버튼에 커서가 있으면 옮기지 않는다. 실패(403·500)로 잠금이 풀리면 그 버튼으로 돌려준다 |
 | 제목 줄 개수 | `PageTitle`의 `count`: h1 안, 제목 뒤 `{spacing.sm}`, `{typography.caption}` `{colors.ink-muted}` 고정폭 숫자 ('회원 6명', '가입 신청 3건'). 목록을 불러온 뒤에만 보인다 |
 
