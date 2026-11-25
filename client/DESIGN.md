@@ -382,7 +382,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 부분 | 값 |
 |---|---|
 | 자리 | 상자 없이 본문 자리 가운데, 위 여백 `{spacing.section}` (원본 Do: 바탕 위에 바로. 비어 있는 상태라 면을 더하지 않는다). 앱 시작(레이아웃 밖)은 화면 전체의 세로 가운데 |
-| 로딩 | '불러오는 중…' `{typography.body-md}` `{colors.ink-muted}`, 글자만 (스피너 없음) |
+| 로딩 | 0.4초(`--loading-delay`) 뒤에 나타남(그보다 빠른 응답에는 보이지 않음, 깜빡임 방지). 파비콘 실 고리(`components/threadLoop.js`, `favicon.svg`와 같은 경로) 40px·획 4px `--color-thread` + 아래 `{spacing.sm}` '불러오는 중…' `{typography.body-md}` `{colors.ink-muted}`. 고리는 2.5초 반복: 그리기 1.4초(끝 butt) → 머묾 0.8초(끝 round) → 0.3초 사라짐, CSS `@keyframes`. 움직임 줄이기면 다 그린 고리로 멈춤. 화면 읽기는 글자의 `role="status"`, 고리는 `aria-hidden`. 앱 시작도 같음, 홈 박스 안 로딩은 글자만 (2026-11-25) |
 | 제목 | `{typography.title}` (heading 계열 중 본문 제목 `heading-2`보다 한 단계 아래), `{colors.ink}` |
 | 설명 | `{typography.caption}`, `{colors.ink-muted}`. 제목과 간격 `{spacing.xs}`, 버튼과 간격 `{spacing.lg}` |
 | [메인으로]·[동아리 홈으로] | button-secondary (흰 pill + Level 1 그림자). hover는 Level 2 그림자, 누르면 바탕 `{colors.canvas-soft}` |
