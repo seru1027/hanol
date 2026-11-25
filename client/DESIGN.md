@@ -298,7 +298,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | Primary | 원본 `button-primary`. 여백 `{spacing.xs}` × `{spacing.md}` (원본에 값 없음). 그림자 `--shadow-primary` = Level 1 + 주황 빛(0 4px 12px, 28%), hover는 `--shadow-primary-hover` = Level 2 + 주황 빛(0 6px 16px, 40%) (2026-11-25. 평평하면 흰 버튼 옆에서 따로 놀고, 회색 그림자만으로는 주황 위에서 약해서. Figma 05 공통 ④ B) | 화면의 주 행동 (로그인, 가입하기, 다시 시도). 폼 안에서는 폼 폭을 꽉 채운다 |
 | Secondary | 원본 `button-secondary` (흰색 pill + Level 1 그림자) | 보조 행동 (취소, 메인으로) |
 | Utility | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 4px × 14px) | 목록·도구 안의 작은 행동 |
-| Danger | Secondary 모양에 글자 `{colors.danger}` (`Modal.module.css`의 `.danger`가 `.secondary`를 `composes`) | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
+| Danger | 화면에 늘 보이는 위험 버튼(공지 상세 [삭제]): Secondary 모양에 글자 `{colors.danger}` (`.danger`가 `.secondary`를 `composes`). **확인창 안**의 위험 버튼([삭제]·[나가기]): `.dangerConfirm` 연한 빨강 면 `--color-danger-soft` #fdecee + 진한 빨강 굵은 글자 `--color-danger-strong` #b00012(6.4:1), 그림자 없음, hover 면 #fbd9dd (2026-11-25, Figma 05 공통 ⑤ C. 주 버튼이 주황 면이 된 뒤 흰 pill 빨간 글자는 가장 약해 보여서) | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
 
 | 상태 | 모양 |
 |---|---|
@@ -415,7 +415,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 대기 신청 줄 | 박스 맨 아래, 위 hairline + 간격 `{spacing.md}`. 행 전체가 링크 '대기 중인 가입 신청 n건 →' (0건 '대기 중인 신청 없음'), `{typography.body-sm}`, hover `{colors.fill-subtle}` |
 | 로딩·빈·오류 | 박스 안 caption `{colors.ink-muted}`. 오류는 '불러오지 못했습니다' + 오른쪽 [다시 시도] (박스 머리는 그대로 두어 어느 박스가 실패했는지 보인다) |
 
-**확인창** (`modal`을 칸 없이 쓴다, 코드 재발급·F5 공지 삭제): 제목 `{typography.title}` → 설명 `{typography.body-sm}` `{colors.ink-secondary}` → 버튼 줄 [취소] Secondary · [주 행동] Primary (`modal` 버튼 줄 그대로). 열리면 커서는 [취소] (잃는 쪽이 기본이 되지 않게). 요청 중에는 Esc·바깥 닫기와 두 버튼을 막고 문구를 바꾼다('재발급 중…'). 성공하면 닫고 연 버튼으로 커서를 돌려준다. 500은 토스트로 알리고 확인창은 연 채로 둔다. 재발급은 Danger가 아니라 Primary (Danger는 지우는 행동에 남긴다)
+**확인창** (`modal`을 칸 없이 쓴다, 코드 재발급·F5 공지 삭제): 제목 `{typography.title}` → 설명 `{typography.body-sm}` `{colors.ink-secondary}` (`Modal.module.css` `.desc` 하나, 2026-11-25에 화면별 `.confirmDesc`를 모음) → 버튼 줄 [취소] Secondary · [주 행동] Primary (`modal` 버튼 줄 그대로). 열리면 커서는 [취소] (잃는 쪽이 기본이 되지 않게). 요청 중에는 Esc·바깥 닫기와 두 버튼을 막고 문구를 바꾼다('재발급 중…'). 성공하면 닫고 연 버튼으로 커서를 돌려준다. 500은 토스트로 알리고 확인창은 연 채로 둔다. 재발급은 Danger가 아니라 Primary (Danger는 지우는 행동에 남긴다)
 
 ### `notice` — 공지 목록·상세·작성 (SCR-NOTICE-01~03)
 공지 화면들(`pages/Notice*Page.jsx`, 화면마다 `.module.css`). 동작·문구는 Figma 03 각 카드. 홈 공지 박스(`home-box`)의 행 문법을 넓혀 쓴다.
@@ -438,7 +438,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 글자 수 | 본문 칸 아래 왼쪽(도움말 자리) caption muted 고정폭 숫자 '0 / 5,000'. 5,000을 넘으면 `{colors.danger}`. 입력한 그대로 코드 포인트로 센다 (앞뒤 공백 제거는 저장할 때). 제목 칸에는 두지 않는다 (F5 결정 7) |
 | 오류 | 칸 아래 caption danger + 칸 테두리 danger (`form-field` Error). 저장을 누르면 전체 검사 후 첫 오류 칸에 커서 |
 | 버튼 줄 | 오른쪽 [취소] Secondary · [올리기]/[저장] Primary, 칸과 간격 `{spacing.lg}`. 요청 중 '올리는 중…'/'저장 중…' + 두 버튼·칸 잠금 |
-| 나가기 확인창 | 입력이 있을 때 **앱 안의 모든 이동**([취소], ← 링크, 햄버거바, 상단바 서비스명·동아리명, 브라우저 뒤로 가기)에서. 화면정의서 결정 S는 [취소]만이었는데, 다른 길로 나가면 입력이 말없이 사라져서 넓혔다 (2026-11-09). `useBlocker`(데이터 라우터 필요, `main.jsx`)가 이동을 멈추면 띄운다: [계속 쓰기] = 이동 취소, [나가기] = 멈춘 이동 계속. 저장 성공 이동과 로그인 만료(/login) 이동은 막지 않는다. 새로고침·탭 닫기는 브라우저 기본 경고(`beforeunload`, 문구는 브라우저가 정함). 제목 '작성 중인 내용이 사라져요'(설명 없음) [계속 쓰기] Secondary · [나가기] Danger (입력을 버리는 행동). 커서는 [계속 쓰기] |
+| 나가기 확인창 | 입력이 있을 때 **앱 안의 모든 이동**([취소], ← 링크, 햄버거바, 상단바 서비스명·동아리명, 브라우저 뒤로 가기)에서. 화면정의서 결정 S는 [취소]만이었는데, 다른 길로 나가면 입력이 말없이 사라져서 넓혔다 (2026-11-09). `useBlocker`(데이터 라우터 필요, `main.jsx`)가 이동을 멈추면 띄운다: [계속 쓰기] = 이동 취소, [나가기] = 멈춘 이동 계속. 저장 성공 이동과 로그인 만료(/login) 이동은 막지 않는다. 새로고침·탭 닫기는 브라우저 기본 경고(`beforeunload`, 문구는 브라우저가 정함). 제목 '작성 중인 내용이 사라져요'(설명 없음) [계속 쓰기] Secondary · [나가기] Danger (입력을 버리는 행동). 커서는 [계속 쓰기]. 설명 '나가면 쓰던 제목과 내용은 저장되지 않아요.'(`MODAL_LEAVE_DESC`, 2026-11-25) |
 | 회원이 주소로 들어옴 | 폼 대신 `status-panel` 권한 없음(`h1`) + [동아리 홈으로]. 수정 주소면 NOTICE-02도 부르지 않는다 |
 | 수정 불러오기 | NOTICE-02 응답 전에는 제목 줄 아래 `status-panel` 로딩 (빈 폼을 먼저 그리지 않는다: 빈 값으로 덮어쓰기 방지). 404·400은 패널만(`h1`), 500은 [다시 시도] |
 | 수정 404 (저장 중 다른 운영진이 삭제) | 버튼 줄 바로 위 오른쪽 caption danger '이미 삭제된 공지입니다' `role="alert"`, 입력값은 그대로 (복사할 수 있게). 칸 하나의 잘못이 아니라 칸 아래에 두지 않는다 |
