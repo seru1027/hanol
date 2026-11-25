@@ -117,6 +117,7 @@
 .primary {
   background: var(--color-primary);
   color: var(--color-on-primary);
+  font: var(--type-button-strong) var(--font-sans); /* 강조색 위 흰 글자는 굵게 */
 }
 
 .primary:active {

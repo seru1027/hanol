@@ -81,11 +81,11 @@
   color: var(--color-ink-muted);
 }
 
-/* 지금 보고 있는 화면의 행: 파란 글자 + 진한 회색 면
+/* 지금 보고 있는 화면의 행: 먹색 굵은 글자 + 진한 회색 면 (주황은 주 버튼에만, 2026-11-25)
    마우스를 올린 행(옅은 회색)보다 한 단계 진하게: '지금 여기'와 '가리키는 곳'이 구분된다 (Claude 사이드바처럼) */
 .rowActive {
   background: var(--color-fill-strong);
-  color: var(--color-primary);
+  color: var(--color-ink);
   font-weight: 600;
 }
 
@@ -364,4 +364,10 @@
 /* 본문 자리: 따뜻한 바탕 위 */
 .content {
   padding: var(--space-xxl);
+}
+
+/* 내용은 최대 폭 안에서 가운데 (화면이 넓어도 눈이 오가는 거리를 줄인다) */
+.content > * {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
 }

@@ -1,8 +1,8 @@
 /* 화면 모양의 값은 여기 한 곳에만 둔다. 원본은 client/DESIGN.md, 화면의 .module.css는 var(--...)만 쓴다 */
 :root {
   /* 색 */
-  --color-primary: #0075de;
-  --color-primary-active: #005bab;
+  --color-primary: #f0603f; /* 주 버튼 바탕 = 실 색 (2026-11-25, 파랑 #0075de 대신). 흰 글자 3.3:1이라 버튼 글자는 굵게(--type-button-strong). 주 버튼에만 쓴다 */
+  --color-primary-active: #d9532f; /* hover·누름: 한 단계 진하게 */
   --color-secondary: #213183; /* 로그인 화면 이미지 영역 (hero "night" 띠, 한 번만) */
   --color-on-primary: #ffffff;
   --color-ink: rgba(0, 0, 0, 0.95);
@@ -38,6 +38,7 @@
   --type-body-sm: 400 15px/1.33;
   --type-body-sm-strong: 600 15px/1.33; /* body-sm weight 600 (가입 신청 0건 제목) */
   --type-button: 500 16px/1.5;
+  --type-button-strong: 600 16px/1.5; /* 강조색 바탕 버튼: 흰 글자 대비가 낮아 굵게 */
   --type-caption: 400 14px/1.43;
   --type-label: 600 14px/1.43;
   --type-eyebrow: 600 12px/1.33;
@@ -77,7 +78,7 @@
 
   /* 상태·크기 */
   --border-width: 1px;
-  --focus-ring: 2px solid var(--color-primary);
+  --focus-ring: 2px solid var(--color-ink); /* 먹색 (주황은 주 버튼에만, 2026-11-25) */
   --focus-offset: 2px;
   --press-scale: 0.96; /* 원형 아이콘 버튼만. 원본 0.9는 32px 원에서 과해서 0.96 (DESIGN.md motion) */
   --disabled-opacity: 0.4;
@@ -89,6 +90,7 @@
   --menu-enter-offset: -4px; /* 메뉴가 아이콘 쪽에서 살짝 내려오며 나타남 */
   --menu-enter-scale: 0.97;
   --duration-nav: 200ms; /* 햄버거바 접기·펼치기. 자주 누르므로 300ms보다 짧게 */
+  --content-max-width: 1040px; /* 본문 내용 최대 폭, 가운데 정렬 (표의 한 행이 한눈에 읽히게) */
   --loading-delay: 400ms; /* 로딩 패널이 나타나기 전 기다림. 이보다 빠른 응답에는 로딩이 보이지 않는다(깜빡임 방지) */
   --loading-loop-size: 40px; /* 로딩 실 고리 (파비콘 경로, 획 4px) */
   --loading-loop-duration: 2500ms; /* 그리기 1.4s + 머묾 0.8s + 사라짐 0.3s */
@@ -116,7 +118,6 @@
   --auth-brand-slot: 20px; /* 머리말 서비스명 자리 높이(예전 글자 한 줄). 워드마크가 이보다 크면 그만큼 위로 올라가 제목 자리가 그대로 */
   --wordmark-lg-height: 53px; /* 패널 워드마크 (시안 44px의 1.2배) */
   --stroke-wordmark-sm: 2px; /* 작을수록 높이에 비해 굵게 (높이의 약 9%, 패널 것은 6.6%) */
-  --color-auth-button-active: #3a3a3a; /* 먹색 버튼을 누르거나 올렸을 때 (살짝 밝게) */
   --underline-offset: 3px;
   --stroke-wordmark-lg: 3.5px; /* 그림 선(2.5px)보다 살짝 두껍게. 화면 px (실이 그리는 ㅇ) */
   --stroke-wordmark-lg-art: 3.04px; /* 워드마크 그림 좌표 단위: 화면 3.5px ÷ (53 / 46) */

@@ -28,7 +28,7 @@ const TOAST_OPTIONS = {
     padding: 'var(--space-sm) var(--space-md)',
     font: 'var(--type-caption) var(--font-sans)',
   },
-  success: { iconTheme: { primary: 'var(--color-primary)', secondary: 'var(--color-on-primary)' } },
+  success: { iconTheme: { primary: 'var(--color-ink)', secondary: 'var(--color-on-primary)' } },
   error: { iconTheme: { primary: 'var(--color-danger)', secondary: 'var(--color-on-primary)' } },
 };
 
