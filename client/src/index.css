@@ -89,6 +89,9 @@
   --menu-enter-offset: -4px; /* 메뉴가 아이콘 쪽에서 살짝 내려오며 나타남 */
   --menu-enter-scale: 0.97;
   --duration-nav: 200ms; /* 햄버거바 접기·펼치기. 자주 누르므로 300ms보다 짧게 */
+  --loading-delay: 400ms; /* 로딩 패널이 나타나기 전 기다림. 이보다 빠른 응답에는 로딩이 보이지 않는다(깜빡임 방지) */
+  --loading-loop-size: 40px; /* 로딩 실 고리 (파비콘 경로, 획 4px) */
+  --loading-loop-duration: 2500ms; /* 그리기 1.4s + 머묾 0.8s + 사라짐 0.3s */
   --form-width: 400px;
 
   /* 로그인 화면 (DESIGN.md auth-card) */

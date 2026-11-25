@@ -16,8 +16,71 @@
   padding-block: 0;
 }
 
+/* 로딩: --loading-delay 동안 숨김(backwards = 기다리는 동안 from 값을 씀). 0초 애니메이션이라 그 뒤 바로 보인다 */
+.delayed {
+  animation: status-appear 0s var(--loading-delay) backwards;
+}
+
+@keyframes status-appear {
+  from {
+    visibility: hidden;
+  }
+}
+
+/* 실 고리. 그리는 동안 끝은 평평(butt), 다 그리면 둥글게(round) (components/DrawPath.jsx와 같은 규칙: 길이 0일 때 점이 찍히지 않게) */
+.loop {
+  width: var(--loading-loop-size);
+  height: var(--loading-loop-size);
+  overflow: visible; /* 둥근 끝이 viewBox 밖으로 조금 나간다 */
+}
+
+.loop path {
+  fill: none;
+  stroke: var(--color-thread);
+  stroke-linejoin: round;
+  stroke-dasharray: 1 2; /* 길이 1인 선 + 그보다 긴 빈칸 → offset 1이면 안 보이고 0이면 다 보인다 */
+  animation: thread-loop var(--loading-loop-duration) var(--loading-delay) infinite backwards;
+}
+
+/* 2.5초 한 바퀴: 0~56% 그리기(1.4s) → 56~88% 머묾(0.8s) → 88~100% 사라짐(0.3s) */
+@keyframes thread-loop {
+  0% {
+    stroke-dashoffset: 1;
+    stroke-linecap: butt;
+    opacity: 1;
+    animation-timing-function: ease-in-out;
+  }
+  55.99% {
+    stroke-dashoffset: 0;
+    stroke-linecap: butt;
+  }
+  56% {
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    opacity: 0;
+  }
+}
+
+/* 움직임 줄이기: 반복하지 않고 다 그린 고리로 멈춘다 (나타나기 전 지연은 그대로) */
+@media (prefers-reduced-motion: reduce) {
+  .loop path {
+    animation: none;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+  }
+}
+
 .loading {
-  margin: 0;
+  margin: var(--space-sm) 0 0;
   color: var(--color-ink-muted);
   font: var(--type-body) var(--font-sans);
 }

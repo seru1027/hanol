@@ -1,12 +1,13 @@
 import { Link } from 'react-router';
 import { messageOf } from '../messages.js';
 import styles from './StatusPanel.module.css';
+import { THREAD_LOOP } from './threadLoop.js';
 
 // SCR-COMMON-02 공통 상태 패널. 본문 자리(또는 앱 시작 때는 화면 전체)에 들어간다
 // 조회 화면은 응답 상태에 맞는 kind 하나만 골라 넘긴다. 401은 패널 없이 api.js가 /login으로 보낸다
 //
 // kind
-//   loading   ① 조회 응답 전. 글자만 (스피너 없음)
+//   loading   ① 조회 응답 전. 0.4초 뒤 나타나 실 고리가 그려지고 반복 + 글자 (움직임 줄이기면 멈춘 고리)
 //   pending   ② 403 승인 대기중 → [메인으로]          (F4 동아리 레이아웃에서 씀)
 //   forbidden ③ 403 권한 없음   → [동아리 홈으로]    (F4, orgId 필요)
 //   notFound  ④ 404 (이유는 구분하지 않음 = 존재 숨김) → [메인으로]
@@ -25,7 +26,12 @@ export default function StatusPanel({ kind, onRetry, orgId, fullScreen = false, 
 
   if (kind === 'loading') {
     return (
-      <div className={className}>
+      // delayed: 0.4초 동안 숨겨 두어 빠른 응답에는 아무것도 보이지 않게 한다
+      <div className={`${className} ${styles.delayed}`}>
+        {/* 그림은 꾸밈이라 화면 읽기에서 뺀다. pathLength="1": 길이를 1로 보고 dash로 그려지게 (CSS 애니메이션) */}
+        <svg className={styles.loop} viewBox={THREAD_LOOP.viewBox} aria-hidden="true" focusable="false">
+          <path d={THREAD_LOOP.d} pathLength="1" strokeWidth={THREAD_LOOP.strokeWidth} />
+        </svg>
         {/* role="status": 화면 읽기 프로그램이 지금 불러오는 중임을 알린다 */}
         <p className={styles.loading} role="status">{messageOf('LOADING')}</p>
       </div>
