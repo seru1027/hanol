@@ -3,6 +3,7 @@
   /* 색 */
   --color-primary: #ed7d31; /* 주 버튼 바탕 = 실 색 (2026-11-26 Color Hunt 조합, 그 전 #f0603f). 흰 글자 2.8:1이라 버튼 글자는 굵게(--type-button-strong). 주 버튼에만 쓴다 */
   --color-primary-active: #d86a1f; /* hover·누름: 한 단계 진하게 (흰 글자 3.5:1) */
+  --color-primary-pressed: #b85a1a; /* 로그인 버튼 hover·누름 (바탕이 primary-active라 한 단계 더) */
   --color-on-primary: #ffffff;
   --color-ink: rgba(0, 0, 0, 0.95);
   --color-ink-secondary: #4f4a45; /* 따뜻한 회색 (2026-11-26, 그 전 #31302e) */
@@ -113,14 +114,14 @@
   --radius-auth-panel: 45px; /* 오른쪽 패널의 폼 쪽 두 모서리. 레퍼런스 값 */
   --color-auth-panel: #ece3d6; /* 오른쪽 패널 바탕 (따뜻한 베이지, 폼 바탕과 같은 계열) */
   --color-line-art: #1a1a1a; /* 패널 그림의 손 선 */
-  --color-thread: #ed7d31; /* 패널 그림의 실 (주황. 빨강 오류색과 구분, 2026-11-26 그 전 #f0603f) */
+  --color-thread: #f0603f; /* 실 모티프(실·워드마크 '올'·로딩/빈 상태 고리·파비콘): 코랄. 주 버튼 주황(#ed7d31)과 따로 둔다 (2026-11-26, 아이콘은 코랄이 낫다는 사용자 판단) */
   --stroke-hand: 2.5px; /* 손 한 줄 그림 굵기 (그림 좌표 734×900 기준) */
   --stroke-thread: 2px; /* 실 굵기 */
   --stroke-loop-gap: 7px; /* 고리 밑 바탕색 띠: 손가락 윤곽선을 끊는 폭 */
   --stroke-loop-mask: 12px; /* 실의 손 앞 겹이 보이는 고리 띠 폭 */
   --auth-panel-pad: var(--space-section); /* 패널 글자의 왼쪽·아래 여백 */
   --auth-panel-text-width: 560px; /* 패널 글자 최대 폭 (뜻 줄이 한 줄에 들어가는 폭) */
-  --color-thread-text: #b85a1a; /* 실 색 계열 글자 (베이지 위 3.7:1, 큰 글자만) */
+  --color-thread-text: #c9452a; /* 실 색 계열 글자 (베이지 위 3.8:1, 큰 글자만) */
   --type-auth-tagline: 600 26px/1.23; /* 패널 슬로건: heading-2 크기, 굵기 한 단계 아래 */
   --wordmark-sm-height: 22px; /* 로그인 폼 위 워드마크 (제목 32px의 약 0.7배, 2026-11-24) */
   --auth-brand-slot: 20px; /* 머리말 서비스명 자리 높이(예전 글자 한 줄). 워드마크가 이보다 크면 그만큼 위로 올라가 제목 자리가 그대로 */

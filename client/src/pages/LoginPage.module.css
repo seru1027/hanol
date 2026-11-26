@@ -95,7 +95,7 @@
   }
 
   .submit:not(:disabled):hover {
-    background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #b85a1a */
+    background: var(--color-primary-pressed); /* hover·누름: 한 단계 더 어둡게 #b85a1a */
     box-shadow: var(--shadow-primary-hover);
   }
 }
@@ -240,7 +240,7 @@
 }
 
 .submit:active {
-  background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #b85a1a */
+  background: var(--color-primary-pressed); /* hover·누름: 한 단계 더 어둡게 #b85a1a */
 }
 
 .submit:focus-visible {
