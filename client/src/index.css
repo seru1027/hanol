@@ -3,7 +3,6 @@
   /* 색 */
   --color-primary: #ed7d31; /* 주 버튼 바탕 = 실 색 (2026-11-26 Color Hunt 조합, 그 전 #f0603f). 흰 글자 2.8:1이라 버튼 글자는 굵게(--type-button-strong). 주 버튼에만 쓴다 */
   --color-primary-active: #d86a1f; /* hover·누름: 한 단계 진하게 (흰 글자 3.5:1) */
-  --color-secondary: #213183; /* 로그인 화면 이미지 영역 (hero "night" 띠, 한 번만) */
   --color-on-primary: #ffffff;
   --color-ink: rgba(0, 0, 0, 0.95);
   --color-ink-secondary: #4f4a45; /* 따뜻한 회색 (2026-11-26, 그 전 #31302e) */

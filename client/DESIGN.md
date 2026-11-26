@@ -31,7 +31,7 @@ Surfaces are defined by hairlines and the faintest layered shadows rather than h
 ### Brand & Accent
 - **[바꿈] 강조색 = 실 색** (`{colors.primary}` — #ed7d31, 2026-11-26. 원본 Notion Blue #0075de 대신. 2026-11-25 Figma 05 화면 개선에서 코랄 #f0603f로 정했다가, 2026-11-26 Color Hunt 인기 조합(#f6f1ee #6c5f5b #4f4a45 #ed7d31, 좋아요 5,277)을 화면에 입혀 비교한 뒤 주황으로 바꿈. 바탕·카드·글자 회색도 같은 조합에 맞춤): **주 버튼 바탕에만** 쓴다(글쓰기·저장·만들기·신청·다시 시도·로그인/가입하기). 처음엔 focus·입력칸 테두리·토스트 아이콘·선택된 메뉴까지 바꿨으나 주황이 너무 많아 되돌렸다: focus·입력칸 테두리와 성공 토스트 아이콘은 먹색 `{colors.ink}`, 선택된 메뉴는 회색 면. 흰 글자 대비가 2.8:1이라(코랄 때 3.3:1) 작은 글자 기준(4.5:1)에 못 미친다는 것을 알고 고른 예외 → 주 버튼 글자는 굵게(`--type-button-strong` 600). 강조색 글자는 쓰지 않는다(실 색 글자가 필요하면 `--color-thread-text`). 실 색은 그 밖에 워드마크 '올'·로딩 고리·빈 상태 고리(실 모티프)에만. (원본: the single structural accent. Primary CTA fill ("Get Notion free"), inline link colour, active-tab and focus signal. This is the only colour that ever paints an action.
 - **Pressed** (`{colors.primary-active}` — #d86a1f, 그 전 #d9532f, 원본 #005bab): hover·누름에서 한 단계 진하게.
-- **Deep Indigo** (`{colors.secondary}` — #213183): the dark hero "night" band background and its sticker-constellation field; a deep brand-blue used for full-bleed inverted sections.
+- **[안 씀]** 로그인 패널이 베이지(`--color-auth-panel`)로 바뀌어 토큰을 지움 (2026-11-26). **Deep Indigo** (`{colors.secondary}` — #213183): the dark hero "night" band background and its sticker-constellation field; a deep brand-blue used for full-bleed inverted sections.
 
 The remaining colours form Notion's **decorative sticker palette** — they appear only as illustrated blocks, app stickers and category dots, never as CTAs or structural fills:
 - **Sticker Sky** (`{colors.accent-sky}` — #62aef0)
