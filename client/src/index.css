@@ -173,7 +173,7 @@
   --join-col-action: 180px;
 
   /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
-  --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */
+  --org-card-min-width: 200px; /* 본문 1040 안에서 4열 242 (햄버거바를 여닫아도 같음) */
   --org-card-ratio: 8 / 9; /* 밴드 카드 235×264 */
   --org-band-height: 56%; /* 위 색 띠. 밴드 사진 64%보다 줄여 이름 2줄 자리를 남김 */
   --type-org-initial: 700 40px/1;
