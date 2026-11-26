@@ -1,32 +1,35 @@
 /* 화면 모양의 값은 여기 한 곳에만 둔다. 원본은 client/DESIGN.md, 화면의 .module.css는 var(--...)만 쓴다 */
 :root {
   /* 색 */
-  --color-primary: #f0603f; /* 주 버튼 바탕 = 실 색 (2026-11-25, 파랑 #0075de 대신). 흰 글자 3.3:1이라 버튼 글자는 굵게(--type-button-strong). 주 버튼에만 쓴다 */
-  --color-primary-active: #d9532f; /* hover·누름: 한 단계 진하게 */
+  --color-primary: #ed7d31; /* 주 버튼 바탕 = 실 색 (2026-11-26 Color Hunt 조합, 그 전 #f0603f). 흰 글자 2.8:1이라 버튼 글자는 굵게(--type-button-strong). 주 버튼에만 쓴다 */
+  --color-primary-active: #d86a1f; /* hover·누름: 한 단계 진하게 (흰 글자 3.5:1) */
   --color-secondary: #213183; /* 로그인 화면 이미지 영역 (hero "night" 띠, 한 번만) */
   --color-on-primary: #ffffff;
   --color-ink: rgba(0, 0, 0, 0.95);
-  --color-ink-secondary: #31302e;
-  --color-ink-muted: #615d59; /* 읽어야 하는 보조 글자 */
+  --color-ink-secondary: #4f4a45; /* 따뜻한 회색 (2026-11-26, 그 전 #31302e) */
+  --color-ink-muted: #6c5f5b; /* 읽어야 하는 보조 글자 (카드 위 5.9:1, 햄버거바 위 5.1:1) */
   --color-ink-faint: #a39e98; /* placeholder·잠긴 글자만 (흰 바탕 2.6:1) */
-  --color-canvas: #ffffff;
-  --color-canvas-soft: #f6f5f4;
-  --color-hairline: #e6e6e6;
-  --color-input-border: #dddddd;
+  --color-canvas: #fdfaf7; /* 카드·표·입력칸·작은 버튼·메뉴: 따뜻한 흰색 (2026-11-26, 그 전 #ffffff) */
+  --color-canvas-soft: #f6f1ee; /* 본문 바탕 (2026-11-26, 그 전 #f6f5f4) */
+  --color-chrome: #efe8e3; /* 햄버거바·상단바: 본문보다 한 단계 어둡게 (2026-11-26) */
+  --color-chrome-border: #e3dad4; /* 햄버거바·상단바 경계선 (hairline은 이 바탕에서 안 보여서) */
+  --color-hairline: #e9e2dd;
+  --color-input-border: #ddd5cf;
   --color-fill-subtle: rgba(0, 0, 0, 0.05);
   --color-fill-strong: rgba(0, 0, 0, 0.09); /* fill-subtle 위 hover·열림 (원형 아이콘 버튼) */
   --color-danger: #d70015;
-  --color-danger-soft: #fdecee; /* 확인창 안 위험 버튼 바탕 (2026-11-25) */
-  --color-danger-soft-hover: #fbd9dd;
+  --color-danger-soft: #fbe8e3; /* 확인창 안 위험 버튼 바탕: 따뜻한 분홍 (2026-11-26, 그 전 #fdecee). 글자 danger-strong 6.2:1 */
+  --color-danger-soft-hover: #f8d8d0; /* 그 전 #fbd9dd */
   --color-danger-strong: #b00012; /* 연한 빨강 바탕 위 글자 (6.4:1) */
-  /* sticker 색: 장식 전용 (메인 카드 색 띠). 상태·행동 표시에 쓰지 않는다 (DESIGN.md Colors) */
-  --color-sticker-0: #62aef0; /* sky */
-  --color-sticker-1: #d6b6f6; /* purple (밝아서 글자는 deep) */
-  --color-sticker-2: #ff64c8; /* pink */
-  --color-sticker-3: #dd5b00; /* orange */
-  --color-sticker-4: #2a9d99; /* teal */
-  --color-sticker-5: #1aae39; /* green */
-  --color-sticker-purple-deep: #391c57;
+  /* sticker 색: 장식 전용 (메인 카드 색 띠). 상태·행동 표시에 쓰지 않는다 (DESIGN.md Colors)
+     2026-11-26 따뜻한 바탕에 맞춰 채도를 낮춤 (원본 Notion 값은 주석). 흰 글자 3:1 이상(큰 글자 기준) */
+  --color-sticker-0: #6f93b5; /* dusty sky (원본 #62aef0), 흰 글자 3.2:1 */
+  --color-sticker-1: #c4b0d6; /* dusty lavender (원본 #d6b6f6), 밝아서 글자는 deep 5.9:1 */
+  --color-sticker-2: #c87a95; /* dusty rose (원본 #ff64c8), 흰 글자 3.2:1 */
+  --color-sticker-3: #b08a3e; /* ochre (원본 orange #dd5b00: 주 버튼 주황과 헷갈려서 황토로), 흰 글자 3.2:1 */
+  --color-sticker-4: #4f8f86; /* sage teal (원본 #2a9d99), 흰 글자 3.8:1 */
+  --color-sticker-5: #6f8f5a; /* sage green (원본 #1aae39), 흰 글자 3.7:1 */
+  --color-sticker-purple-deep: #45304f; /* 원본 #391c57 */
 
   /* 글꼴: NotionInter 대신 Pretendard (Inter 바탕 + 한글) */
   --font-sans: 'Pretendard Variable', Pretendard, Inter, -apple-system, system-ui, 'Segoe UI',
@@ -79,8 +82,8 @@
   --shadow-2: rgba(0, 0, 0, 0.01) 0 1px 3px, rgba(0, 0, 0, 0.02) 0 3px 7px,
     rgba(0, 0, 0, 0.02) 0 7px 15px, rgba(0, 0, 0, 0.04) 0 14px 28px, rgba(0, 0, 0, 0.05) 0 23px 52px;
   /* 주 버튼(주황): Level 1 + 같은 색 빛. 회색 그림자만으로는 주황 위에서 잘 안 보여서 (2026-11-25, Figma 05 공통 ④ B) */
-  --shadow-primary: var(--shadow-1), rgba(240, 96, 63, 0.28) 0 4px 12px;
-  --shadow-primary-hover: var(--shadow-2), rgba(240, 96, 63, 0.4) 0 6px 16px;
+  --shadow-primary: var(--shadow-1), rgba(237, 125, 49, 0.28) 0 4px 12px;
+  --shadow-primary-hover: var(--shadow-2), rgba(237, 125, 49, 0.4) 0 6px 16px;
 
   /* 상태·크기 */
   --border-width: 1px;
@@ -111,14 +114,14 @@
   --radius-auth-panel: 45px; /* 오른쪽 패널의 폼 쪽 두 모서리. 레퍼런스 값 */
   --color-auth-panel: #ece3d6; /* 오른쪽 패널 바탕 (따뜻한 베이지, 폼 바탕과 같은 계열) */
   --color-line-art: #1a1a1a; /* 패널 그림의 손 선 */
-  --color-thread: #f0603f; /* 패널 그림의 실 (코랄. 빨강 오류색·'붉은 실'과 구분) */
+  --color-thread: #ed7d31; /* 패널 그림의 실 (주황. 빨강 오류색과 구분, 2026-11-26 그 전 #f0603f) */
   --stroke-hand: 2.5px; /* 손 한 줄 그림 굵기 (그림 좌표 734×900 기준) */
   --stroke-thread: 2px; /* 실 굵기 */
   --stroke-loop-gap: 7px; /* 고리 밑 바탕색 띠: 손가락 윤곽선을 끊는 폭 */
   --stroke-loop-mask: 12px; /* 실의 손 앞 겹이 보이는 고리 띠 폭 */
   --auth-panel-pad: var(--space-section); /* 패널 글자의 왼쪽·아래 여백 */
   --auth-panel-text-width: 560px; /* 패널 글자 최대 폭 (뜻 줄이 한 줄에 들어가는 폭) */
-  --color-thread-text: #c9452a; /* 실 색 계열 글자 (베이지 위 3.8:1, 큰 글자만) */
+  --color-thread-text: #b85a1a; /* 실 색 계열 글자 (베이지 위 3.7:1, 큰 글자만) */
   --type-auth-tagline: 600 26px/1.23; /* 패널 슬로건: heading-2 크기, 굵기 한 단계 아래 */
   --wordmark-sm-height: 22px; /* 로그인 폼 위 워드마크 (제목 32px의 약 0.7배, 2026-11-24) */
   --auth-brand-slot: 20px; /* 머리말 서비스명 자리 높이(예전 글자 한 줄). 워드마크가 이보다 크면 그만큼 위로 올라가 제목 자리가 그대로 */

@@ -28,8 +28,8 @@
   width: var(--sidebar-width);
   min-height: 100vh;
   padding: 0 var(--space-xs) var(--space-xs);
-  border-right: var(--border-width) solid var(--color-hairline);
-  background: var(--color-canvas);
+  border-right: var(--border-width) solid var(--color-chrome-border);
+  background: var(--color-chrome);
 }
 
 /* 햄버거바 묶음: 성격이 다른 묶음 사이를 띄운다 (Notion의 '공유된 페이지'·'개인 페이지' 사이처럼) */
@@ -127,15 +127,15 @@
   min-width: 0;
 }
 
-/* 상단바 (nav-bar): 흰색 + 아래 hairline */
+/* 상단바: 햄버거바와 같은 색 (본문보다 한 단계 어둡게) + 아래 경계선 */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
   padding: 0 var(--space-md);
-  border-bottom: var(--border-width) solid var(--color-hairline);
-  background: var(--color-canvas);
+  border-bottom: var(--border-width) solid var(--color-chrome-border);
+  background: var(--color-chrome);
 }
 
 /* 햄버거바 맨 위 줄: 상단바와 같은 높이. 접기 버튼이 상단바 ☰와 같은 x(16px)에 오도록 안쪽 여백 8 + 8 */

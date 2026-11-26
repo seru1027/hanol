@@ -95,7 +95,7 @@
   }
 
   .submit:not(:disabled):hover {
-    background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #c9452a */
+    background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #b85a1a */
     box-shadow: var(--shadow-primary-hover);
   }
 }
@@ -229,7 +229,7 @@
   padding: var(--space-xs) var(--space-md);
   border: 0;
   border-radius: var(--radius-full);
-  background: var(--color-primary-active); /* 앱 안 주 버튼(#f0603f)보다 한 단계 어두운 주황 #d9532f (흰 글자 4.0:1, 2026-11-25) */
+  background: var(--color-primary-active); /* 앱 안 주 버튼(#ed7d31)보다 한 단계 어두운 주황 #d86a1f (흰 글자 3.5:1, 2026-11-26) */
   color: var(--color-on-primary);
   font: var(--type-button-strong) var(--font-sans);
   box-shadow: var(--shadow-primary); /* 앱 안 주 버튼과 같은 그림자 (2026-11-25) */
@@ -240,7 +240,7 @@
 }
 
 .submit:active {
-  background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #c9452a */
+  background: var(--color-thread-text); /* hover·누름: 한 단계 더 어둡게 #b85a1a */
 }
 
 .submit:focus-visible {
