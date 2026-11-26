@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useOutletContext } from 'react-router';
 import { api } from '../api.js';
 import { messageOf } from '../messages.js';
@@ -8,12 +9,17 @@ const PREVIEW_COUNT = 5; // 결정 M: 총 인원 + 앞 5명
 
 // SCR-ORG-03 ④ 멤버 박스 (MEMBER-01). 모든 역할이 같은 박스
 // 서버 정렬(역할 순 → 가입 순) 그대로 앞 5명. 이름·역할만 쓴다 (일반 회원 응답에는 그 둘만 온다)
-export default function MemberBox() {
+// onCount: 불러온 총 인원을 동아리 홈 머리에 알린다 (선택)
+export default function MemberBox({ onCount }) {
   const { orgId } = useOutletContext();
   const { status, data: members, retry } = useBoxData(async () => {
     const result = await api(`/api/orgs/${orgId}/members`);
     return result.status === 200 ? result.data.members : null; // 총 인원이 필요해 전체를 둔다
   });
+
+  useEffect(() => {
+    if (members) onCount?.(members.length);
+  }, [members, onCount]);
 
   // 제목에 총 인원. 불러오기 전·실패면 '멤버'만
   const title = members ? messageOf('BOX_MEMBERS_COUNT').replace('{n}', members.length) : messageOf('BOX_MEMBERS');

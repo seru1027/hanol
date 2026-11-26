@@ -40,13 +40,13 @@
   font: var(--type-org-initial) var(--font-sans);
 }
 
-/* sticker 6색 (orgId % 6). 장식이라 상태·행동 색과 겹치지 않는다 */
-.band0 { background: var(--color-sticker-0); }
-.band1 { background: var(--color-sticker-1); color: var(--color-sticker-purple-deep); }
-.band2 { background: var(--color-sticker-2); }
-.band3 { background: var(--color-sticker-3); }
-.band4 { background: var(--color-sticker-4); }
-.band5 { background: var(--color-sticker-5); }
+/* sticker 6색 (orgId % 6). 동아리 홈 머리와 같은 색이라 components/Sticker.module.css 한 곳에서 가져온다 */
+.band0 { composes: s0 from '../components/Sticker.module.css'; }
+.band1 { composes: s1 from '../components/Sticker.module.css'; }
+.band2 { composes: s2 from '../components/Sticker.module.css'; }
+.band3 { composes: s3 from '../components/Sticker.module.css'; }
+.band4 { composes: s4 from '../components/Sticker.module.css'; }
+.band5 { composes: s5 from '../components/Sticker.module.css'; }
 
 /* 띠 아래: 이름(2줄까지) → 역할
    flex: 1로 띠 아래 남은 높이를 모두 차지하고, 역할은 margin-top: auto로 맨 아래에 붙인다

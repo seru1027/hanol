@@ -177,6 +177,9 @@
   --org-card-ratio: 8 / 9; /* 밴드 카드 235×264 */
   --org-band-height: 56%; /* 위 색 띠. 밴드 사진 64%보다 줄여 이름 2줄 자리를 남김 */
   --type-org-initial: 700 40px/1;
+  --org-mark-size: 56px; /* 동아리 홈 머리의 첫 글자 네모 (메인 카드 색 띠와 같은 색) */
+  --radius-org-mark: 14px;
+  --type-org-mark: 700 26px/1;
   --org-action-icon-size: 64px; /* 만들기·가입하기 원 */
   --icon-size-lg: 24px; /* 그 원 안 선 아이콘 */
 

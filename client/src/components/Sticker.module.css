@@ -1,0 +1,8 @@
+/* 동아리 색 (sticker 6색, orgId % 6). 메인 카드 색 띠와 동아리 홈 머리의 첫 글자 네모가 같은 색을 쓴다
+   장식이라 상태·행동 색과 겹치지 않는다. 값은 index.css의 :root만 쓴다 */
+.s0 { background: var(--color-sticker-0); color: var(--color-on-primary); }
+.s1 { background: var(--color-sticker-1); color: var(--color-sticker-purple-deep); } /* 밝은 보라라 글자는 진하게 */
+.s2 { background: var(--color-sticker-2); color: var(--color-on-primary); }
+.s3 { background: var(--color-sticker-3); color: var(--color-on-primary); }
+.s4 { background: var(--color-sticker-4); color: var(--color-on-primary); }
+.s5 { background: var(--color-sticker-5); color: var(--color-on-primary); }

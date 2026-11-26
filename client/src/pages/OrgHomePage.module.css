@@ -1,12 +1,48 @@
 /* SCR-ORG-03 동아리 홈 (client/DESIGN.md home-box). 값은 index.css의 :root만 쓴다
    박스 세 개(NoticeBox, MemberBox, JoinBox)와 껍데기(HomeBox)가 함께 쓴다 */
 
-/* 2열: 왼쪽 공지(넓게) / 오른쪽 가입 관리 → 멤버. 박스 높이는 내용만큼 (늘이지 않음) */
+/* 머리: 첫 글자 네모 + 동아리명(h1) + 역할 · 인원 (2026-11-26) */
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.mark {
+  display: grid;
+  flex: 0 0 var(--org-mark-size);
+  height: var(--org-mark-size);
+  place-items: center;
+  border-radius: var(--radius-org-mark);
+  font: var(--type-org-mark) var(--font-sans);
+}
+
+.headText {
+  min-width: 0;
+}
+
+/* 공백 없는 긴 이름도 줄을 바꾼다 */
+.headTitle {
+  margin: 0;
+  font: var(--type-heading-2) var(--font-sans);
+  letter-spacing: var(--tracking-heading-2);
+  overflow-wrap: anywhere;
+}
+
+.headMeta {
+  margin: var(--space-xxs) 0 0;
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+}
+
+/* 2열: 왼쪽 공지(넓게) / 오른쪽 가입 관리 → 멤버. 두 열의 아래 끝을 맞춘다 (박스 안 내용은 그대로, 남는 자리는 아래 여백)
+   2026-11-26 전에는 align-items: start로 내용만큼 */
 .grid {
   display: grid;
   grid-template-columns: var(--home-columns);
   gap: var(--space-lg);
-  align-items: start;
+  align-items: stretch;
 }
 
 .side {
@@ -14,6 +50,11 @@
   flex-direction: column;
   gap: var(--space-lg);
   min-width: 0;
+}
+
+/* 오른쪽 열의 마지막 박스(멤버)가 남는 높이를 채운다: 회원 화면(멤버만)에서도 두 박스 아래가 맞는다 */
+.side > :last-child {
+  flex: 1;
 }
 
 /* 박스: 원본 feature-card. 박스 전체를 누르는 게 아니라 그림자 없이 hairline만 (메인 카드처럼 띄우지 않음) */
