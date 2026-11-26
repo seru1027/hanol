@@ -406,7 +406,8 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 
 | 부분 | 값 |
 |---|---|
-| 배치 | 2열 `minmax(0, 3fr) minmax(0, 2fr)` (`--home-columns`, 와이어프레임 비율), 사이 `{spacing.lg}`. 왼쪽 공지 / 오른쪽 가입 관리 → 멤버. 박스 높이는 내용만큼. 일반 회원은 가입 관리 박스가 없어 오른쪽에 멤버만 |
+| 홈 머리 | 2026-11-26 (Figma 05 동아리 홈 A, 화면정의서의 '동아리명 제목 줄'과 다른 점): 첫 글자 네모 56px(`--org-mark-size`, 모서리 14, 글자 700 26px) + 동아리명 `h1` `{typography.heading-2}` + 아래 caption muted '내 역할 · 멤버 n명'. 네모 색은 메인 카드 색 띠와 같은 sticker 색(`components/Sticker.module.css`, `stickerClass(orgId)` = orgId % 6, 장식이라 `aria-hidden`). 인원은 멤버 박스(MEMBER-01)가 불러온 수를 `onCount`로 받아 쓰고(같은 API를 다시 부르지 않음), 불러오기 전·실패면 역할만. 사이 `{spacing.md}`, 아래 박스와 `{spacing.lg}` |
+| 배치 | 2열 `minmax(0, 3fr) minmax(0, 2fr)` (`--home-columns`, 와이어프레임 비율), 사이 `{spacing.lg}`. 왼쪽 공지 / 오른쪽 가입 관리 → 멤버. **두 열의 아래 끝을 맞춘다**(grid `align-items: stretch` + 오른쪽 마지막 박스 `flex: 1`, 2026-11-26. 박스 안 내용은 그대로이고 남는 자리는 아래 여백. 그 전에는 내용만큼이라 공지가 적으면 왼쪽 아래가 비었다). 일반 회원은 가입 관리 박스가 없어 오른쪽에 멤버만이고, 공지·멤버 두 박스가 같은 높이가 된다 |
 | 상자 | 원본 `feature-card`: 흰색, 1px hairline, `{rounded.lg}`, 여백 `{spacing.lg}`, **그림자 없음** (박스 전체를 누르는 게 아니어서 메인 카드처럼 띄우지 않는다. 원본: "Default elevation is flat (hairline only)") |
 | 머리 | 제목 `--type-body-strong` + 오른쪽 버튼. 높이 32px로 고정해 박스끼리 첫 줄이 맞는다. 내용과 간격 `{spacing.sm}` |
 | → | 박스 전체 목록 링크. 32px 아이콘 버튼(☰와 같은 문법: 투명, `{rounded.md}`, hover `{colors.fill-subtle}`, 누르는 범위 40), 선 아이콘 20px. 이름은 aria-label '공지 전체 보기'·'회원 전체 보기' |
