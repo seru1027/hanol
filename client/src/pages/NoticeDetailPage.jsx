@@ -5,7 +5,6 @@ import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
 import Modal from '../components/Modal.jsx';
 import modalStyles from '../components/Modal.module.css';
-import PageTitle from '../components/PageTitle.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDateTime } from '../format.js';
 import { messageOf } from '../messages.js';
@@ -80,39 +79,41 @@ export default function NoticeDetailPage() {
   return (
     <section>
       <BackLink to={listPath} label={messageOf('BACK_TO_NOTICES')} />
-      <PageTitle
-        title={messageOf('NOTICE_LIST_TITLE')}
-        actions={
-          // 내용이 있을 때만: 불러오는 중·실패에는 고칠 대상이 없다
-          canManage && notice && (
-            <>
-              <Link to={`/orgs/${orgId}/notices/${noticeId}/edit`} className={styles.edit}>
-                {messageOf('BUTTON_EDIT')}
-              </Link>
-              <button type="button" className={styles.delete} onClick={() => setConfirmOpen(true)} aria-haspopup="dialog">
-                {messageOf('BUTTON_DELETE')}
-              </button>
-            </>
-          )
-        }
-      />
-
+      {/* 카드 하나에 글 전체 (2026-11-26, Figma 05 공지 상세 A). 화면 제목 줄 '공지'는 없애고 공지 제목이 h1
+          로딩·오류는 '← 공지 목록' 아래에. 오류 패널은 화면에 다른 h1이 없으므로 h1 */}
       {!loaded || loaded.status === 401 ? (
         <StatusPanel kind="loading" />
       ) : !notice ? (
-        <StatusPanel kind="error" onRetry={retry} />
+        <StatusPanel kind="error" onRetry={retry} titleAs="h1" />
       ) : (
         <article className={styles.box}>
-          <h2 className={styles.title}>{notice.title}</h2>
-          {/* ⑤ 작성자 · 작성 시각, 수정된 적이 있을 때만(updatedAt이 null이 아님) '· 수정됨 시각' */}
-          <p className={styles.meta}>
-            {notice.authorName} · <time dateTime={notice.createdAt}>{formatDateTime(notice.createdAt)}</time>
-            {notice.updatedAt && (
-              <>
-                {' · '}{messageOf('NOTICE_EDITED')} <time dateTime={notice.updatedAt}>{formatDateTime(notice.updatedAt)}</time>
-              </>
+          <header className={styles.head}>
+            <div className={styles.heading}>
+              {/* 상단바에 페이지명이 없어(결정 B) 어느 화면인지 알려주는 작은 표시. 제목 단계가 아닌 글자 */}
+              <p className={styles.eyebrow}>{messageOf('NOTICE_LIST_TITLE')}</p>
+              <h1 className={styles.title}>{notice.title}</h1>
+              {/* ⑤ 작성자 · 작성 시각, 수정된 적이 있을 때만(updatedAt이 null이 아님) '· 수정됨 시각' */}
+              <p className={styles.meta}>
+                {notice.authorName} · <time dateTime={notice.createdAt}>{formatDateTime(notice.createdAt)}</time>
+                {notice.updatedAt && (
+                  <>
+                    {' · '}{messageOf('NOTICE_EDITED')} <time dateTime={notice.updatedAt}>{formatDateTime(notice.updatedAt)}</time>
+                  </>
+                )}
+              </p>
+            </div>
+            {/* [수정][삭제]: 회장·운영진만. 내용을 불러온 뒤에만 그린다 */}
+            {canManage && (
+              <div className={styles.actions}>
+                <Link to={`/orgs/${orgId}/notices/${noticeId}/edit`} className={styles.edit}>
+                  {messageOf('BUTTON_EDIT')}
+                </Link>
+                <button type="button" className={styles.delete} onClick={() => setConfirmOpen(true)} aria-haspopup="dialog">
+                  {messageOf('BUTTON_DELETE')}
+                </button>
+              </div>
             )}
-          </p>
+          </header>
           {/* ⑥ 본문: {} 안의 문자열은 React가 글자로만 넣는다(자동 escape). <script>도 화면에 글자 그대로 보이고 실행되지 않는다
               dangerouslySetInnerHTML(HTML로 해석)은 쓰지 않는다 (XSS 방어). 줄바꿈은 CSS pre-wrap이 지킨다 */}
           <div className={styles.content}>{notice.content}</div>
