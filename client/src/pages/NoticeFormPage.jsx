@@ -5,7 +5,7 @@ import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
 import Modal from '../components/Modal.jsx';
 import modalStyles from '../components/Modal.module.css';
-import PageTitle from '../components/PageTitle.jsx';
+import PageCard from '../components/PageCard.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { messageOf } from '../messages.js';
 import { validateNotice } from '../validate.js';
@@ -18,7 +18,7 @@ const EMPTY = { title: '', content: '' };
 //   /orgs/:orgId/notices/:noticeId/edit  → 수정 (NOTICE-02로 불러온 뒤 폼)
 // App.jsx가 두 라우트에 key를 따로 준다: 같은 컴포넌트라도 작성 ↔ 수정으로 옮기면 state(입력값)가 새로 시작된다
 export default function NoticeFormPage() {
-  const { orgId, myRole } = useOutletContext();
+  const { orgId, myRole, orgName } = useOutletContext();
   const { noticeId } = useParams(); // 작성 주소에는 없다 (undefined)
 
   // 일반 회원이 주소로 직접 들어오면 폼 대신 권한 없음 패널 (화면정의서 상태표)
@@ -28,22 +28,21 @@ export default function NoticeFormPage() {
     return <StatusPanel kind="forbidden" orgId={orgId} titleAs="h1" />;
   }
 
-  if (noticeId !== undefined) return <EditNotice orgId={orgId} noticeId={noticeId} />;
+  if (noticeId !== undefined) return <EditNotice orgId={orgId} noticeId={noticeId} orgName={orgName} />;
 
   return (
     <section>
       {/* 화면정의서에는 없음. 이탈 확인이 모든 이동을 막게 된 뒤 더했다 (F5, 2026-11-09) */}
       <BackLink to={`/orgs/${orgId}/notices`} label={messageOf('BACK_TO_NOTICES')} replace />
-      {/* ① 오른쪽 행동 버튼 없음 (저장·취소는 폼 아래) */}
-      <PageTitle title={messageOf('NOTICE_FORM_NEW_TITLE')} />
-      <NoticeForm orgId={orgId} initial={EMPTY} />
+      {/* ① 카드 머리 오른쪽에 [취소][올리기] (2026-11-26 Figma 05 쓰기 B. 그 전에는 폼 아래) */}
+      <NoticeForm orgId={orgId} orgName={orgName} initial={EMPTY} />
     </section>
   );
 }
 
 // 수정: NOTICE-02 응답 전에는 폼을 그리지 않는다 (화면정의서 '로딩 (수정 모드)')
 // 빈 폼을 먼저 보여주면 그 사이 [저장]을 눌러 빈 값으로 덮어쓸 수 있다. 응답이 온 뒤 그 값을 시작값으로 폼을 그린다
-function EditNotice({ orgId, noticeId }) {
+function EditNotice({ orgId, noticeId, orgName }) {
   const [result, setResult] = useState(null);
   const [attempt, setAttempt] = useState(0);
 
@@ -72,16 +71,21 @@ function EditNotice({ orgId, noticeId }) {
   return (
     <section>
       <BackLink to={`/orgs/${orgId}/notices/${noticeId}`} label={messageOf('BACK_TO_NOTICE')} replace />
-      <PageTitle title={messageOf('NOTICE_FORM_EDIT_TITLE')} />
       {!loaded || loaded.status === 401 ? (
-        <StatusPanel kind="loading" />
+        // 불러오는 동안·실패에는 버튼 없는 카드 머리 + 패널 (빈 폼을 먼저 그리지 않는다)
+        <PageCard eyebrow={orgName} title={messageOf('NOTICE_FORM_EDIT_TITLE')}>
+          <StatusPanel kind="loading" />
+        </PageCard>
       ) : loaded.status !== 200 ? (
-        <StatusPanel kind="error" onRetry={retry} />
+        <PageCard eyebrow={orgName} title={messageOf('NOTICE_FORM_EDIT_TITLE')}>
+          <StatusPanel kind="error" onRetry={retry} />
+        </PageCard>
       ) : (
         // key: 다른 공지의 수정 화면으로 바로 옮겨도 폼이 새 시작값으로 다시 시작되게
         <NoticeForm
           key={noticeId}
           orgId={orgId}
+          orgName={orgName}
           noticeId={noticeId}
           initial={{ title: loaded.notice.title, content: loaded.notice.content }}
         />
@@ -93,7 +97,7 @@ function EditNotice({ orgId, noticeId }) {
 // 작성·수정이 함께 쓰는 폼. noticeId가 있으면 수정 (PUT, 버튼 '저장', 돌아가는 곳은 상세)
 // initial(처음 값)은 그릴 때 한 번만 state의 시작값이 된다
 // 제어 컴포넌트: 칸의 값을 state가 쥐고(value), 바뀔 때마다 onChange로 state를 고친다 → 화면 = state
-function NoticeForm({ orgId, noticeId, initial }) {
+function NoticeForm({ orgId, orgName, noticeId, initial }) {
   const isEdit = noticeId !== undefined;
   const navigate = useNavigate();
   const [title, setTitle] = useState(initial.title);
@@ -235,61 +239,69 @@ function NoticeForm({ orgId, noticeId, initial }) {
 
   return (
     // noValidate: 브라우저 기본 검사 말풍선 대신 우리 문구를 칸 아래에
-    <form onSubmit={submit} noValidate aria-busy={submitting} className={styles.form}>
-      <div className={modalStyles.field}>
-        <label htmlFor={`${id}-title`} className={modalStyles.label}>{messageOf('LABEL_NOTICE_TITLE')}</label>
-        <input
-          id={`${id}-title`}
-          ref={titleRef}
-          value={title}
-          onChange={changeTitle}
-          disabled={submitting}
-          placeholder={messageOf('PLACEHOLDER_NOTICE_TITLE')}
-          autoComplete="off"
-          aria-invalid={errors.title ? true : undefined}
-          aria-describedby={titleDescribedBy}
-          className={errors.title ? `${modalStyles.input} ${modalStyles.inputError}` : modalStyles.input}
-        />
-        {errors.title && (
-          <p id={`${id}-title-error`} className={modalStyles.error} role="alert">{messageOf(errors.title)}</p>
-        )}
-      </div>
+    <form onSubmit={submit} noValidate aria-busy={submitting}>
+      {/* 카드 머리에 [취소][올리기/저장]. 버튼이 <form> 안에 있어야 Enter·클릭이 제출이 된다 (form이 카드 전체를 감싼다) */}
+      <PageCard
+        eyebrow={orgName}
+        title={messageOf(isEdit ? 'NOTICE_FORM_EDIT_TITLE' : 'NOTICE_FORM_NEW_TITLE')}
+        actions={
+          <>
+            <button type="button" className={modalStyles.secondary} onClick={cancel} disabled={submitting}>
+              {messageOf('BUTTON_CANCEL')}
+            </button>
+            <button type="submit" ref={submitRef} className={modalStyles.primary} disabled={submitting}>
+              {/* ⑥ 버튼 글자: 작성 '올리기' / 수정 '저장' */}
+              {messageOf(isEdit
+                ? (submitting ? 'BUTTON_SAVING' : 'BUTTON_SAVE')
+                : (submitting ? 'BUTTON_POSTING' : 'BUTTON_POST'))}
+            </button>
+          </>
+        }
+      >
+        <div className={styles.fields}>
+          {/* 수정 404: 칸들 위 오른쪽 (버튼 바로 아래라 '저장의 결과'로 읽힌다. 어느 칸의 잘못도 아님) */}
+          {formError && <p className={styles.formError} role="alert">{messageOf(formError)}</p>}
+          <div className={modalStyles.field}>
+            <label htmlFor={`${id}-title`} className={modalStyles.label}>{messageOf('LABEL_NOTICE_TITLE')}</label>
+            <input
+              id={`${id}-title`}
+              ref={titleRef}
+              value={title}
+              onChange={changeTitle}
+              disabled={submitting}
+              placeholder={messageOf('PLACEHOLDER_NOTICE_TITLE')}
+              autoComplete="off"
+              aria-invalid={errors.title ? true : undefined}
+              aria-describedby={titleDescribedBy}
+              className={errors.title ? `${styles.titleInput} ${modalStyles.inputError}` : styles.titleInput}
+            />
+            {errors.title && (
+              <p id={`${id}-title-error`} className={modalStyles.error} role="alert">{messageOf(errors.title)}</p>
+            )}
+          </div>
 
-      <div className={modalStyles.field}>
-        <label htmlFor={`${id}-content`} className={modalStyles.label}>{messageOf('LABEL_NOTICE_CONTENT')}</label>
-        <textarea
-          id={`${id}-content`}
-          ref={contentRef}
-          value={content}
-          onChange={changeContent}
-          disabled={submitting}
-          aria-invalid={errors.content ? true : undefined}
-          aria-describedby={contentDescribedBy}
-          className={errors.content ? `${styles.textarea} ${modalStyles.inputError}` : styles.textarea}
-        />
-        {/* ④ 글자 수. 5,000을 넘으면 빨간색 (저장은 검사에서 막힌다) */}
-        <p id={`${id}-count`} className={count > 5000 ? `${styles.count} ${styles.countOver}` : styles.count}>
-          {messageOf('NOTICE_CONTENT_COUNT').replace('{n}', count.toLocaleString('ko-KR'))}
-        </p>
-        {errors.content && (
-          <p id={`${id}-content-error`} className={modalStyles.error} role="alert">{messageOf(errors.content)}</p>
-        )}
-      </div>
-
-      {/* 수정 404: 버튼 바로 위 (어느 칸의 잘못도 아니라 칸 아래가 아님) */}
-      {formError && <p className={styles.formError} role="alert">{messageOf(formError)}</p>}
-
-      <div className={styles.actions}>
-        <button type="button" className={modalStyles.secondary} onClick={cancel} disabled={submitting}>
-          {messageOf('BUTTON_CANCEL')}
-        </button>
-        <button type="submit" ref={submitRef} className={modalStyles.primary} disabled={submitting}>
-          {/* ⑥ 버튼 글자: 작성 '올리기' / 수정 '저장' */}
-          {messageOf(isEdit
-            ? (submitting ? 'BUTTON_SAVING' : 'BUTTON_SAVE')
-            : (submitting ? 'BUTTON_POSTING' : 'BUTTON_POST'))}
-        </button>
-      </div>
+          <div className={modalStyles.field}>
+            <label htmlFor={`${id}-content`} className={modalStyles.label}>{messageOf('LABEL_NOTICE_CONTENT')}</label>
+            <textarea
+              id={`${id}-content`}
+              ref={contentRef}
+              value={content}
+              onChange={changeContent}
+              disabled={submitting}
+              aria-invalid={errors.content ? true : undefined}
+              aria-describedby={contentDescribedBy}
+              className={errors.content ? `${styles.textarea} ${modalStyles.inputError}` : styles.textarea}
+            />
+            {/* ④ 글자 수. 5,000을 넘으면 빨간색 (저장은 검사에서 막힌다) */}
+            <p id={`${id}-count`} className={count > 5000 ? `${styles.count} ${styles.countOver}` : styles.count}>
+              {messageOf('NOTICE_CONTENT_COUNT').replace('{n}', count.toLocaleString('ko-KR'))}
+            </p>
+            {errors.content && (
+              <p id={`${id}-content-error`} className={modalStyles.error} role="alert">{messageOf(errors.content)}</p>
+            )}
+          </div>
+        </div>
+      </PageCard>
 
       {/* 나가기 확인창: blocker가 이동을 멈췄을 때만. Modal을 칸 없이, 커서는 [계속 쓰기] (잃는 쪽이 기본이 되지 않게)
           [나가기]는 입력을 버리므로 Danger. Esc·바깥 누르기는 [계속 쓰기]와 같다 */}

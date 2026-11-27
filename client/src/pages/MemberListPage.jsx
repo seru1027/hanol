@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router';
 import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
-import PageTitle from '../components/PageTitle.jsx';
+import PageCard from '../components/PageCard.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDate } from '../format.js';
 import { messageOf } from '../messages.js';
@@ -30,7 +30,7 @@ function cellText(key, value) {
 // SCR-MEMBER-01 회원 목록 (/orgs/:orgId/members). 동아리 레이아웃(SCR-ORG-00) 안의 하위 화면, 모든 역할
 // 서버 정렬(역할 순 → 가입 순) 그대로 그린다. 행은 누를 수 없다 (MVP)
 export default function MemberListPage() {
-  const { orgId } = useOutletContext();
+  const { orgId, orgName } = useOutletContext();
 
   // MEMBER-01 결과: null(응답 전) 또는 { status, members }
   const [result, setResult] = useState(null);
@@ -58,9 +58,10 @@ export default function MemberListPage() {
   return (
     <section>
       <BackLink to={`/orgs/${orgId}`} label={messageOf('BACK_TO_ORG_HOME')} />
-      {/* 제목 줄은 로딩·오류 중에도 남긴다. 오른쪽 행동 버튼 없음 (MVP) */}
-      <PageTitle title={messageOf('MEMBER_LIST_TITLE')} count={count} />
-      <MemberList result={result} onRetry={retry} />
+      {/* 카드 머리는 로딩·오류 중에도 남긴다. 오른쪽 행동 버튼 없음 (MVP) */}
+      <PageCard eyebrow={orgName} title={messageOf('MEMBER_LIST_TITLE')} count={count}>
+        <MemberList result={result} onRetry={retry} />
+      </PageCard>
     </section>
   );
 }

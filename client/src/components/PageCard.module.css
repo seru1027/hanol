@@ -1,0 +1,56 @@
+/* 화면 카드 (client/DESIGN.md org-layout 제목 줄). 값은 index.css의 :root만 쓴다
+   공지 상세 카드와 같은 면: 따뜻한 흰색, hairline, 모서리 lg, 그림자 없음 */
+
+/* 안의 표 행 hover 면이 모서리 밖으로 나가지 않게 자른다 */
+.card {
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-canvas);
+}
+
+/* 머리: 왼쪽 제목 묶음, 오른쪽 버튼 (아래쪽 맞춤: 버튼이 제목 줄과 나란히) */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--page-card-pad);
+}
+
+.heading {
+  min-width: 0;
+}
+
+/* 동아리명: 실 색 계열 글자 (공지 상세의 '공지' 표시와 같은 모양). 길면 한 줄 말줄임 */
+.eyebrow {
+  overflow: hidden;
+  margin: 0 0 var(--space-xs);
+  color: var(--color-thread-text);
+  font: var(--type-eyebrow) var(--font-sans);
+  letter-spacing: var(--tracking-eyebrow);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title {
+  margin: 0;
+  font: var(--type-page-title) var(--font-sans);
+  letter-spacing: var(--tracking-notice-title);
+  overflow-wrap: anywhere;
+}
+
+/* 제목 옆 개수: 작고 흐리게. 숫자 폭을 같게 해 건수가 바뀌어도 흔들리지 않게 */
+.count {
+  margin-left: var(--space-sm);
+  color: var(--color-ink-muted);
+  font: var(--type-body-sm) var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: normal;
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-xs);
+}

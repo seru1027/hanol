@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router';
 import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-import PageTitle from '../components/PageTitle.jsx';
+import PageCard from '../components/PageCard.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDateTime } from '../format.js';
 import { messageOf } from '../messages.js';
@@ -13,17 +13,18 @@ import styles from './JoinRequestListPage.module.css';
 // SCR-JOIN-02 가입 신청 목록 (/orgs/:orgId/join-requests). 회장·운영진만
 // JOIN-03으로 대기 신청을 불러오고(오래된 신청 먼저, 서버 정렬 그대로), 행마다 [승인] = JOIN-04
 export default function JoinRequestListPage() {
-  const { orgId, myRole } = useOutletContext();
+  const { orgId, myRole, orgName } = useOutletContext();
 
   // 일반 회원이 주소로 직접 들어오면 JOIN-03을 부르지 않고 권한 없음 패널 (화면정의서 상태표)
   // 화면 편의일 뿐이다: 실제로 막는 것은 JOIN-03·04의 역할 검사(403)
   if (myRole !== 'OWNER' && myRole !== 'ADMIN') {
     return <StatusPanel kind="forbidden" orgId={orgId} titleAs="h1" />;
   }
-  return <JoinRequests orgId={orgId} />;
+  return <JoinRequests orgId={orgId} orgName={orgName} />;
 }
 
-function JoinRequests({ orgId }) {
+// orgName: 카드 머리의 작은 동아리명
+function JoinRequests({ orgId, orgName }) {
   // JOIN-03 결과: null(응답 전) 또는 { status, code, requests }. 승인한 행은 requests에서 뺀다
   const [result, setResult] = useState(null);
   const [attempt, setAttempt] = useState(0);
@@ -122,16 +123,17 @@ function JoinRequests({ orgId }) {
   return (
     <section>
       <BackLink to={`/orgs/${orgId}`} label={messageOf('BACK_TO_ORG_HOME')} />
-      <PageTitle title={messageOf('JOIN_REQUEST_LIST_TITLE')} count={count} />
-      <RequestList
-        result={result}
-        onRetry={retry}
-        orgId={orgId}
-        approvingIds={approvingIds}
-        onApprove={approve}
-        buttonRefs={buttonRefs}
-        emptyRef={emptyRef}
-      />
+      <PageCard eyebrow={orgName} title={messageOf('JOIN_REQUEST_LIST_TITLE')} count={count}>
+        <RequestList
+          result={result}
+          onRetry={retry}
+          orgId={orgId}
+          approvingIds={approvingIds}
+          onApprove={approve}
+          buttonRefs={buttonRefs}
+          emptyRef={emptyRef}
+        />
+      </PageCard>
     </section>
   );
 }

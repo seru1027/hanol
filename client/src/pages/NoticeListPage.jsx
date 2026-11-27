@@ -3,7 +3,7 @@ import { Link, useOutletContext } from 'react-router';
 import { api } from '../api.js';
 import BackLink from '../components/BackLink.jsx';
 import EmptyState from '../components/EmptyState.jsx';
-import PageTitle from '../components/PageTitle.jsx';
+import PageCard from '../components/PageCard.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDate } from '../format.js';
 import { messageOf } from '../messages.js';
@@ -12,7 +12,7 @@ import styles from './NoticeListPage.module.css';
 // SCR-NOTICE-01 공지 목록 (/orgs/:orgId/notices). 동아리 레이아웃(SCR-ORG-00) 안의 하위 화면
 // NOTICE-01은 전체를 준다(MVP는 페이지네이션 없음). 서버 정렬(최신순) 그대로 그린다
 export default function NoticeListPage() {
-  const { orgId, myRole } = useOutletContext();
+  const { orgId, myRole, orgName } = useOutletContext();
   // ② [글쓰기]는 화면 표시용 판단. 실제로 막는 것은 NOTICE-03의 역할 검사(403)
   const canWrite = myRole === 'OWNER' || myRole === 'ADMIN';
 
@@ -39,17 +39,20 @@ export default function NoticeListPage() {
     <section>
       {/* 동아리 홈으로 가는 길 (화면정의서 카드에는 없음. 상세의 '← 공지 목록'과 같은 문법으로 더함, 2026-11-09) */}
       <BackLink to={`/orgs/${orgId}`} label={messageOf('BACK_TO_ORG_HOME')} />
-      {/* ① 제목 줄은 로딩·오류 중에도 남긴다 (어느 화면의 실패인지 보이게, DESIGN.md status-panel) */}
-      <PageTitle
+      {/* ① 카드 머리는 로딩·오류 중에도 남긴다 (어느 화면의 실패인지 보이게, DESIGN.md status-panel) */}
+      <PageCard
+        eyebrow={orgName}
         title={messageOf('NOTICE_LIST_TITLE')}
+        count={result?.status === 200 ? messageOf('NOTICE_COUNT').replace('{n}', result.notices.length) : null}
         actions={
           canWrite && (
             // 버튼 모양이지만 이동이라 링크 (홈 박스 [글쓰기]와 같음)
             <Link to={`/orgs/${orgId}/notices/new`} className={styles.write}>{messageOf('BUTTON_WRITE')}</Link>
           )
         }
-      />
-      <NoticeList orgId={orgId} result={result} onRetry={retry} canWrite={canWrite} />
+      >
+        <NoticeList orgId={orgId} result={result} onRetry={retry} canWrite={canWrite} />
+      </PageCard>
     </section>
   );
 }

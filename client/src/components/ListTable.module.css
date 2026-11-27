@@ -1,12 +1,10 @@
 /* 목록 표 (client/DESIGN.md list-table). 공지·회원·가입 신청 목록이 composes로 함께 쓴다
    칸 나눔(grid-template-columns)과 행 안 내용(링크·글자·버튼)은 화면마다 정한다. 값은 index.css의 :root만 쓴다 */
 
-/* 흰 상자: 원본 feature-card (홈 박스와 같은 면, 그림자 없음). 행 hover 면이 모서리 밖으로 나가지 않게 자른다 */
+/* 표 자리: 화면 카드(PageCard) 안이라 따로 테두리·면이 없다. 위 구분선으로 카드 머리와 나눈다 (2026-11-26.
+   그 전에는 제목 줄 아래 따로 흰 상자였다) */
 .box {
-  overflow: hidden;
-  border: var(--border-width) solid var(--color-hairline);
-  border-radius: var(--radius-lg);
-  background: var(--color-canvas);
+  border-top: var(--border-width) solid var(--color-hairline);
 }
 
 .list {
@@ -24,7 +22,7 @@
 .row {
   display: grid;
   align-items: baseline;
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-md) var(--page-card-pad-x); /* 행 약 52px, 좌우는 카드 머리 글자와 같은 줄 */
   color: var(--color-ink);
   text-decoration: none;
   transition: background-color var(--duration-fast) ease;
